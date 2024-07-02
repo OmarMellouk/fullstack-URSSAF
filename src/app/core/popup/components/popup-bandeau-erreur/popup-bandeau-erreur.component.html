@@ -1,0 +1,39 @@
+<button class="btn btn-primary" (click)="open(popup)">Ouvrir popup avec bandeau d'erreur</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Enregistrement du décès'"
+    [iconToDisplay]="'assets/icones-showcase/m_warning.svg'"
+    [isFormValid]="form.valid"
+    [firstButton]="{label: 'Confirmer enregistrement décès', icone: 'icon-b_valid'}"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <!-- Toast -->
+    <ng-container toast>
+      <div class="mb-3">
+        <app-note-statique [category]="toastCategoryEnum.ERROR"></app-note-statique>
+      </div>
+    </ng-container>
+
+    <!-- Body -->
+    <p>Vous êtes sur le point d'enregistrer le <strong>décès</strong> de Mme <strong>Ratieville Nicole - NIR 2 78 09 75 403 161</strong></p>
+    <div>
+      Les conséquences de cette action seront les suivantes :
+      <ul>
+        <li>L'entreprise <strong>Ratieville Nicole - SIREN 362 521 879</strong> sera fermée à la date du décès</li>
+        <li>Tous les établissements actifs de l'entreprise seront clôturés</li>
+        <li>Tous les statuts actifs de Mmme Ratieville Nicole seront fermés</li>
+        <li><strong>En cas de présence de comptes TI, RG ou CTC associés, ceux-ci seront radiés</strong></li>
+      </ul>
+    </div>
+    <p>Avant de pouvoir confirmer vous devez renseigner la date de décès : </p>
+    <form [formGroup]="form">
+      <div class="form d-flex">
+        <label for="dateDeces" class="col-form-label ps-0">Date de décès *</label>
+        <app-date-picker [currentDate]="form.get('dateDeces')" [spaceForControl]="true" class="w-25" [isError]="!!form.get('dateDeces').errors" ></app-date-picker>
+      </div>
+    </form>
+  </app-popup>
+</ng-template>

@@ -1,0 +1,115 @@
+{
+  "environnement": {
+    "name": "prod"
+  },
+  "application": {
+    "name": "fullstack",
+    "version": "1.0.0-feature-charte-graphique-7-SNAPSHOT"
+  },
+  "logging": {
+    "console": true,
+    "level": 0,
+    "logLevelDescription": "TRACE = 0, DEBUG = 1, INFO = 2, LOG = 3, WARN = 4, ERROR = 5, FATAL = 6, OFF = 7"
+  },
+  "apiServer": {
+    "baseUrl": "{{ .Values.frontend.configuration.backendUrl }}"
+  },
+  "documentations":
+  {
+    "projets":
+    [
+      {
+        "name" : "Fullstack",
+        "url": "https://readthedocs.cnp.recouv/projects/fullstack/",
+        "urlsearch": "https://readthedocs.cnp.recouv/docs/fullstack/fr/latest/search.html?check_keywords=yes&area=default&q="
+      },
+      {
+        "name" : "Integration Continue",
+        "url": "https://readthedocs.cnp.recouv/projects/pic-et-outils/",
+        "urlsearch": "https://readthedocs.cnp.recouv/docs/pic-et-outils/fr/latest/search.html?check_keywords=yes&area=default&q="
+      },
+      {
+        "name" : "Kafka",
+        "url": "https://readthedocs.cnp.recouv/projects/documentation-kafka/",
+        "urlsearch": "https://readthedocs.cnp.recouv/docs/documentation-kafka/fr/latest/search.html?check_keywords=yes&area=default&q="
+      }
+    ]
+  },
+  "liens":
+    {
+      "blocs":
+      [
+        {
+        "titre": "Fullstack",
+        "liens":
+        [
+          {
+            "icone": "/assets/icons/lien/gitlab-logo-500.svg",
+            "lien": "http://gitlab.altair.recouv/sded/bureau-technique/architecture-expertise-applicative/fullstack/fullstack-spa-internet",
+            "nomlien": "Fullstack SPA Internet",
+            "description": "Fullstack SPA Internet"
+          },
+          {
+            "icone": "/assets/icons/lien/gitlab-logo-500.svg",
+            "lien": "http://gitlab.altair.recouv/sded/bureau-technique/architecture-expertise-applicative/fullstack/fullstack-api-end2end-testing",
+            "nomlien": "API end to end testing",
+            "description": "API end to end testing"
+          },
+          {
+            "icone": "/assets/icons/lien/gitlab-logo-500.svg",
+            "lien": "http://gitlab.altair.recouv/sded/bureau-technique/architecture-expertise-applicative/fullstack/fullstack-spa-e2e",
+            "nomlien": "End to end testing",
+            "description": "End to end testing"
+          },
+          {
+            "icone": "/assets/icons/lien/ic_shortcut_fs.png",
+            "lien": "http://gitlab.altair.recouv/sded/bureau-technique/architecture-expertise-applicative/fullstack/fullstack-v3",
+            "nomlien": "Fullstack V3",
+            "description": "Fullstack V3"
+          }
+        ]
+      },
+      {
+        "titre": "Integration continue",
+        "liens":
+        [
+          {
+            "icone": "/assets/icons/lien/jenkins.svg",
+            "lien": "http://jenkins.urssaf.recouv/",
+            "nomlien": "Jenkins",
+            "description": "Jenkins"
+          },
+          {
+            "icone": "/assets/icons/lien/SonarQube icon.svg",
+            "lien": "http://sonarqube.altair.recouv/",
+            "nomlien": "Sonar Qube",
+            "description": "Sonar Qube"
+          }
+        ]
+      }
+    ]
+  },
+  "prismeConfiguration": {
+    "prismeAuthzEndpoint": "{{ .Values.frontend.configuration.prisme.url.base }}{{ .Values.frontend.configuration.prisme.url.authz }}",
+    "prismeTokenEndpoint": "{{ .Values.frontend.configuration.prisme.url.base }}{{ .Values.frontend.configuration.prisme.url.token }}",
+    "prismeKeysEndpoint": "{{ .Values.frontend.configuration.prisme.url.base }}{{ .Values.frontend.configuration.prisme.url.keys }}",
+    "prismeUserEndpoint": "{{ .Values.frontend.configuration.prisme.url.base }}{{ .Values.frontend.configuration.prisme.url.userinfo }}",
+    "prismeClientId": "{{ .Values.frontend.configuration.prisme.client_id }}",
+    "prismeClientSecret": "{{ .Values.frontend.configuration.prisme.client_secret }}",
+    "prismeCodeApp": "FUST",
+    "prismeIss": "https://gateway.urssaf.recouv",
+    "prismeScopeFront": "{{ .Values.frontend.configuration.prisme.prismeScopeFront }}",
+    "prismeScopeBack": "{{ .Values.frontend.configuration.prisme.prismeScopeBack }}",
+    "prismeRefreshTokensInterval": {{ .Values.frontend.configuration.prisme.prismeRefreshTokensInterval }}000,
+    "applicationUri": "http://{{ .Values.frontend.host }}",
+    "iFrameRenouvellement": "iframeFullstackBoFe",
+    "pageApresConnexion": "/",
+    "chargerUserInfosFront": true,
+    "chargerUserInfosBack": true,
+    "jetonReadyTopic": "prisme:authentication-request",
+    "jetonMessageTopic": "prisme:set-token",
+    "waitWebMessageURLFragment": "wait_token"
+  }
+}
+
+

@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
+  "input": "src/app/apis/openapi/api-v3.yaml",
+  "output": "src/app/apis/applirest/api-v3",
+  "configuration": "ApiV3RestConfiguration",
+  "ignoreUnusedModels": false,
+  "minParamsForContainer": 5,
+  "sortParams": "desc",
+  "defaultTag": "Api",
+  "removeStaleFiles": true,
+  "modelIndex": true,
+  "serviceIndex": true,
+  "apiModule": true,
+  "enumModule": true,
+  "generateExamples": false,
+  "camelCase": false
+}

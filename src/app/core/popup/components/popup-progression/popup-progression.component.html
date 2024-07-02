@@ -1,0 +1,17 @@
+<button  class="btn btn-primary" (click)="open(popup)">Ouvrir popup de progression</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Popup de progression...'"
+    [firstButton]="{label: 'Abandonner', icone: 'icon-b_cancel'}"
+    [secondButton]="null"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <p>Veuillez patienter pendant l'exécution de la tâche</p>
+    <ngb-progressbar class="position-relative" type="progress" [value]="progressPercentage" height="0.875rem" [max]="100">
+      <div class="progress-percentage">{{ progressPercentage }}%</div>
+    </ngb-progressbar>
+  </app-popup>
+</ng-template>

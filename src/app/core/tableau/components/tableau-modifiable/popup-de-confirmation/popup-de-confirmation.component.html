@@ -1,0 +1,18 @@
+<app-popup 
+  [modalRef]="activeModal"
+  [title]="'Suppression d\'un serveur'"
+  [iconToDisplay]="'assets/icones-showcase/m_warning.svg'"
+  [firstButton]="{label: 'Confirmer suppression', icone: 'icon-b_valid'}"
+  [secondButton]="{label: 'Abandonner', icone: 'icon-b_cancel'}"
+>
+  <div *ngIf="rowDataArray.length === 1">
+    Vous êtes sur le point de supprimer le serveur {{rowDataArray[0].serveur}}.
+  </div>
+
+  <div *ngIf="rowDataArray.length > 1">
+    Vous êtes sur le point de supprimer les serveurs :
+    <ul class="mb-0">
+      <li *ngFor="let rowData of rowDataArray">{{rowData.serveur}}</li>
+    </ul>
+  </div>
+</app-popup>

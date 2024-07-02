@@ -1,0 +1,33 @@
+<button  class="btn btn-primary" (click)="open(popup)">Ouvrir popup de base</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Modification globale période'"
+    [iconToDisplay]="'assets/icones-showcase/m_warning.svg'"
+    [firstButton]="{label: 'Confirmer modification', icone: 'icon-b_valid'}"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <p>
+      Vous êtes sur le point de modifier la période pour l'ensemble<br />
+      des lignes du tableau.
+    </p>
+
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-12">
+          <app-liste-deroulante
+            [label]="'Période'"
+            [index]="0"
+            [form]="form.get('periode')"
+            [hasBlankOption]="true"
+            [options]="[]"
+            [inputColumns]="5"
+            [labelWidth]="66"
+          ></app-liste-deroulante>
+        </div>
+      </div>
+    </form>
+  </app-popup>
+</ng-template>

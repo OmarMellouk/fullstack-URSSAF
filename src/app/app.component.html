@@ -1,0 +1,25 @@
+<header>
+  <app-header (toggle)="toggleSideBar()"></app-header>
+</header>
+
+<main>
+
+  <div class="wrapper">
+
+    <!-- Sidebar -->
+    <nav id="sidebar" [ngClass]="{'active' : !openSideBar}">
+      <app-nav></app-nav>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="page overflow-auto" [ngClass]="{'specific-bg-color' : isDemoScreens}">
+      <lib-breadcrumb [labelFirstItem]="isDemoScreens ? 'Accueil établissement' : 'Accueil'"></lib-breadcrumb>
+      <div class="default-screen-padding">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+  </div>
+
+  <app-report-bouton></app-report-bouton>
+</main>

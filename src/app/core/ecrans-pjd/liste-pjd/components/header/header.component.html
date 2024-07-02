@@ -1,0 +1,28 @@
+<div class="d-flex mb-3">
+  <h1>Liste des pièces justificatives de débit du compte RG - 937 865678977345622</h1>
+  <div class="ms-auto mb-2">Dernière actualisation le <strong>11/04/2022</strong> à <strong>11:35</strong> <i aria-hidden="true" title="Actualiser" class="icon-b_refresh ms-2"></i></div>
+</div>
+
+<div class="d-flex mb-4">
+  <form [formGroup]="form">
+    <div class="form d-flex">
+      <label for="ctp" class="col-form-label ps-0">CTP</label>
+      <app-champ-de-saisie-seul [form]="form.get('ctp')" [index]="1" class="first-input-width me-5"></app-champ-de-saisie-seul>
+  
+      <label for="codeCommune" class="col-form-label ps-0 ms-5">Code commune</label>
+      <app-champ-de-saisie-seul [form]="form.get('codeCommune')" [index]="2" class="second-input-width me-5"></app-champ-de-saisie-seul>
+  
+      <label for="codeRisque" class="col-form-label ps-0 ms-5">Code risque</label>
+      <app-champ-de-saisie-seul [form]="form.get('codeRisque')" [index]="3" class="third-input-width"></app-champ-de-saisie-seul>
+    </div>
+  </form>
+
+  <div class="button-group ms-auto">
+    <button type="button" class="btn btn-primary">
+      <i class="icon-b_search" aria-hidden="true"></i><span>Rechercher</span>
+    </button>
+    <button type="button" class="btn btn-secondary">
+      Réinitialiser critères
+    </button>
+  </div>
+</div>

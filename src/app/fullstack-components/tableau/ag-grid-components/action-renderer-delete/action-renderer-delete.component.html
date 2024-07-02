@@ -1,0 +1,3 @@
+<div class="d-flex justify-content-center" *ngIf="!isEditing && !params.node.rowPinned && !params.data.lockEdition" >
+  <i #actionRenderer tabindex="0" class="icon-b_delete no-focus" (keyup.enter)="deleteRow()" (click)="deleteRow()" aria-hidden="true" title="Supprimer"></i>
+</div>

@@ -1,0 +1,50 @@
+<app-zone-information>
+  <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+  <ng-container header>
+    <h2>Période d'activité</h2>
+    <div class="button-group ms-auto">
+      <button class="btn btn-secondary">Bouton 1</button>
+      <button class="btn btn-secondary">Bouton 2</button>
+    </div>
+  </ng-container>
+
+  <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->	
+  <ng-container body>
+    <form>
+      <div class="row ms-0">
+        <div class="col-icon p-0">
+          <svg-icon src="assets/icones-projets/GA/d_company.svg" [svgStyle]="{ 'width.em': 3.077, 'height.em': 3.077}"></svg-icon>
+        </div>
+        <div class="col-4 p-0">
+          <app-champ-de-saisie [label]="'Dénomination *'" [index]="0" [form]="form.get('denomiation')" [labelWidth]="148" [inputColumns]="7"></app-champ-de-saisie>
+          <app-champ-de-saisie [label]="'Nom commercial'" [index]="1" [form]="form.get('nomCommercial')" [labelWidth]="148" [inputColumns]="7"></app-champ-de-saisie>
+          <app-champ-de-saisie [label]="'Forme Juridique'" [index]="2" [form]="form.get('formeJuridique')" [labelWidth]="148" [inputColumns]="7"></app-champ-de-saisie>
+          <app-champ-de-saisie [label]="'Type d\'entreprise'" [index]="3" [form]="form.get('typeEntreprise')" [labelWidth]="148" [inputColumns]="7"></app-champ-de-saisie>
+          <app-liste-deroulante [label]="'Régime fiscal *'" [index]="4" [form]="form.get('regimeFiscal')" 
+            [options]="[{value: 'Sarl Martin', text: 'Sarl Martin'}]" [labelWidth]="148" [inputColumns]="7"></app-liste-deroulante>
+          <app-champ-de-saisie [label]="'Activité principale *'" [index]="6" [form]="form.get('activitePrincipale')" [labelWidth]="148" [inputColumns]="7"></app-champ-de-saisie>
+        </div>
+        <div class="col-4 p-0">
+          <app-liste-deroulante [label]="'Option EIRL'" [index]="7" [form]="form.get('optionEIRL')"
+            [options]="[{value: 'Sarl Martin', text: 'Sarl Martin'}]" [labelWidth]="148" [inputColumns]="7"></app-liste-deroulante>
+          <app-label-valeur [label]="'Dénomination EIRL'" [valeur]="'-'" [labelWidth]="148" [inputColumns]="7"></app-label-valeur>
+          <app-label-valeur [label]="'Objet EIRL'" [valeur]="'-'" [labelWidth]="148" [inputColumns]="7"></app-label-valeur>
+          <app-label-valeur [label]="'Option fiscale EIRL'" [valeur]="'-'" [labelWidth]="148" [inputColumns]="7"></app-label-valeur>
+          <app-label-valeur [label]="'Déclaration complémentaires d\'affectation de patrimoine'" [valeur]="'-'" [labelWidth]="148" [inputColumns]="7"></app-label-valeur>
+          <app-label-valeur [label]="'Registre de dépôt'" [valeur]="'-'" [labelWidth]="148" [inputColumns]="7"></app-label-valeur>
+        </div>
+
+        <div class="col-with-border">
+          <div class="col-icon p-0">
+            <i class="icon-b_calendar" aria-hidden="true"></i>
+          </div>
+          <div class="col-next-to-icon">
+            <app-label-valeur [label]="'Date de création'" [valeur]="'28/09/2021'" [labelWidth]="122" [inputColumns]="5"></app-label-valeur>
+            <app-label-valeur [label]="'Date de début d\'activité'" [valeur]="'28/09/2021'" [labelWidth]="122" [inputColumns]="5"></app-label-valeur>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+</app-zone-information>

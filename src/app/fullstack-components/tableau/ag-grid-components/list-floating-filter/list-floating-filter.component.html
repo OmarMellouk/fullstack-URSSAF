@@ -1,0 +1,7 @@
+<div [formGroup]="listFilterForm">
+  <!-- RÉTROCOMPATIBILITÉ : Ajouter la classe form-select -->
+  <select class="form-select" formControlName="selectedValueFormControl" (change)="valueSelected()">
+    <option value="">Tous</option>
+    <option *ngFor="let value of possibleValues"  value="{{value}}">{{value}}</option>
+  </select>
+</div>

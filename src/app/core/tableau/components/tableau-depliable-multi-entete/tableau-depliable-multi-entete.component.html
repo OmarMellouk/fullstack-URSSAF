@@ -1,0 +1,9 @@
+<app-tableau
+  [gridOptions]="gridOptions"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [overlayNoRowsTemplate] = "overlayNoRowsTemplate"
+  [pagination]="true"
+  [displayColumnsConfiguration]="true"
+  (gridReady)="onGridReady($event)"
+></app-tableau>

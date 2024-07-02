@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-4">
+      <app-liste-deroulante *ngFor="let item of form.controls | keyvalue; let index = index"
+        [label]="'Label liste déroulante'"
+        [index]="index"
+        [form]="item.value"
+        [hasBlankOption]="true"
+        [isError]="item.key === 'listeDeroulante3Erreur'"
+        [options]="options"
+        [labelWidth]="148"
+        [errorMessage]="'La valeur sélectionnée est invalide'"
+      ></app-liste-deroulante>
+    </div>
+  </div>
+</form>

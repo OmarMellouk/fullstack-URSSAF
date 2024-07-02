@@ -1,0 +1,29 @@
+{
+    "frontend": {
+        "fichiers": [
+            "./devops/configuration/conf_frontend-intranet_FULLSTACK_001.json"
+        ],
+        "version": "0.0.6"
+    },
+    "nom": "FULLSTACK",
+    "install": {
+        "assemblage": {
+            "tokens": {
+                "host": "http://fullstackfe-dev-01.gidn.recouv",
+                "hostpfs": "http://fullstackfe-gidn.dev.k8s.recouv",
+                "hostpfsdev01": "http://fullstackfe-dev01-gidn.dev.k8s.recouv",
+                "hostpfsdev02": "http://fullstackfe-dev02-gidn.dev.k8s.recouv",
+                "hostpfspicmain": "http://fullstackfe-pic-main-gidn.dev.k8s.recouv",
+                "hostpfspicmr": "http://fullstackfe-pic-mr-gidn.dev.k8s.recouv",
+                "hostpfslatestrelease": "http://fullstackfe-latest-release-gidn.dev.k8s.recouv",
+                "hostpfskafkadev01": "http://fullstackfe-kafka-dev01-gidn.dev.k8s.recouv",
+                "hostpfskafkadev02": "http://fullstackfe-kafka-dev02-gidn.dev.k8s.recouv",
+                "hostpfskafkadev03": "http://fullstackfe-kafka-dev03-gidn.dev.k8s.recouv",
+                "hostpfskafkadev04": "http://fullstackfe-kafka-dev04-gidn.dev.k8s.recouv",
+                "hostpfscg": "http://fullstackcg-gidn.dev.k8s.recouv",
+                "clientidfc": "cn=USR_READ_NAT_APP_PORA,OU=PORA,ou=Applications,ou=Technique,dc=recouv",
+                "clientsecretfc": "XL93agPeC!72w"
+            }
+        }
+    }
+}

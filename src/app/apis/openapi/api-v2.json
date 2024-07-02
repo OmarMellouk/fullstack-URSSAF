@@ -1,0 +1,256 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Application Fullstack exposant des services REST, réalisée dans le cadre d'un groupe de travail du Bureau Technique.",
+    "version": "1.0",
+    "title": "Application Fullstack REST API v2",
+    "x-backendArchimed": "FULLSTACK-BE",
+    "contact": {
+      "name": "Bureau Technique - Architecture et Expertise Applicative",
+      "url": "https://recouv.sharepoint.com/sites/bureautechniquedsi-sded/SitePages/Socle-FullStack.aspx"
+    }
+  },
+  "basePath": "/fullstack_be/v2",
+  "securityDefinitions": {
+    "prismeHeader": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "security": [
+    {
+      "prismeHeader": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "EntrepriseV2",
+      "description": "Operations concernant les entreprises"
+    },
+    {
+      "name": "Commune",
+      "description": "Operations concernant les communes"
+    },
+    {
+      "name": "Erreurs",
+      "description": "Operations permettant de tester les différents types d'exceptions remontées par l'application blanche"
+    }
+  ],
+  "paths": {
+    "/entreprises": {
+      "get": {
+        "tags": [
+          "EntrepriseV2"
+        ],
+        "summary": "Rechercher parmi les entreprises",
+        "operationId": "rechercherEntreprises",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "type": "string",
+            "name": "denomination",
+            "description": "Dénomination de l'entreprise",
+            "required": false
+          },
+          {
+            "in": "query",
+            "type": "string",
+            "name": "cp",
+            "description": "Code Postal de l'entreprise",
+            "required": false
+          },
+          {
+            "in": "query",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "name": "sort",
+            "description": "Criteres de tri suivant le format: sort=id:asc,denomination:desc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "type": "integer",
+            "name": "currentPage",
+            "description": "page courante",
+            "required": false
+          },
+          {
+            "in": "query",
+            "type": "integer",
+            "name": "size",
+            "description": "Nombre d'éléments demandés",
+            "required": false
+          },
+          {
+            "in": "query",
+            "type": "boolean",
+            "name": "simple",
+            "description": "Indicateur pour ne retourner que les champs simples ou la grappe d''objet complète",
+            "required": false,
+            "default": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recherche effectuée",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntrepriseV2Type"
+              }
+            }
+          },
+          "400": {
+            "description": "Requête incorrecte ou erreur fonctionnelle lors de la recherche"
+          },
+          "401": {
+            "description": "Token d'authentification absent ou invalide"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TimestampMapper": {
+      "type": "object",
+      "properties": {
+        "dummy_field": {
+          "type": "object",
+          "example": "",
+          "description": "Au moins un champs doit être présent pour générer la classe"
+        }
+      }
+    },
+    "EntrepriseV2Type": {
+      "type": "object",
+      "properties": {
+        "dateCreation": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date de création"
+        },
+        "dateMaj": {
+          "$ref": "#/definitions/TimestampMapper"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Identifiant de l'adresse",
+          "example": "1"
+        },
+        "siren": {
+          "type": "string",
+          "minLength": 9,
+          "maxLength": 9,
+          "description": "Numéro SIREN de l'entreprise",
+          "example": "123456789"
+        },
+        "denomination": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Dénomination de l'entreprise",
+          "example": "Mon entreprise"
+        },
+        "activite": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Activité principale de l'entreprise",
+          "example": "Prestations informatiques"
+        },
+        "naf": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 4,
+          "description": "Code NAF de l'entreprise",
+          "example": "095A"
+        },
+        "activerSuivi": {
+          "type": "boolean",
+          "description": "True si la création de l'entreprise nécessite un suivi particulier"
+        },
+        "adresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdresseType"
+          },
+          "description": "Adresses de l'entreprise"
+        }
+      }
+    },
+    "AdresseType": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Identifiant de l'adresse",
+          "example": "1"
+        },
+        "dateMaj": {
+          "$ref": "#/definitions/TimestampMapper"
+        },
+        "ligne1": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Première ligne de l'adresse",
+          "example": "Immeuble le président"
+        },
+        "ligne2": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Seconde ligne de l'adresse",
+          "example": "36 rue de Valmy"
+        },
+        "commune": {
+          "$ref": "#/definitions/CommuneType"
+        }
+      }
+    },
+    "CommuneType": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Identifiant de la commune",
+          "example": "1"
+        },
+        "cp": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 5,
+          "description": "Code Postal",
+          "example": "93108"
+        },
+        "nom": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Nom",
+          "example": "Montreuil"
+        }
+      }
+    },
+    "ResultatCreationType": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Identifiant de l'objet créé'",
+          "example": "1"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<svg-icon class="error-form-icon" src="assets/icones-projets/GA/d_passport.svg" [svgStyle]="{ 'width.em': 2.308, 'height.em': 2.846}"></svg-icon>
+<div class="w-100" *ngIf="isEditing">
+  <app-liste-deroulante 
+    [label]="'Nationalité *'" [index]="11" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('nationalite')" [options]="[{value: 'Française', text: 'Française'}]" 
+    [isError]="true" [errorMessage]="form.get('nationalite').errors?.message || form.get('nationalite').errors"
+  ></app-liste-deroulante>
+  <app-champ-de-saisie 
+    [label]="'Numéro de titre de séjour'" [index]="12" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('numeroDeTitreDeSejour')" [isError]="true"
+    [errorMessage]="form.get('numeroDeTitreDeSejour').errors?.message || form.get('numeroDeTitreDeSejour').errors"
+  ></app-champ-de-saisie>
+  <app-liste-deroulante 
+    [label]="'Type de titre de séjour'" [index]="13" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('typeDeTitreDeSejour')" [options]="[]" 
+    [isError]="true" [errorMessage]="form.get('typeDeTitreDeSejour').errors?.message || form.get('typeDeTitreDeSejour').errors"
+  ></app-liste-deroulante>
+  <div class="form row d-flex">
+    <label for="dateDeFinValiditeDuTitreDeSejour" class="col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidth + 'px'}">Date de fin validité du titre de séjour</label>
+    <app-date-picker 
+      class="ps-0" [spaceForControl]="true" [ngStyle]="{'width': 'calc(100% - '+ labelWidth + 'px)'}" [fullWidth]="true"
+      [currentDate]="form.get('dateDeFinValiditeDuTitreDeSejour')"
+      [customErrorMessage]="form.get('dateDeFinValiditeDuTitreDeSejour').errors?.message || form.get('dateDeFinValiditeDuTitreDeSejour').errors" 
+      [isError]="form.get('dateDeFinValiditeDuTitreDeSejour').invalid && form.get('dateDeFinValiditeDuTitreDeSejour').touched"
+    ></app-date-picker>
+  </div>
+</div>
+
+<div class="w-100" *ngIf="!isEditing">
+  <app-label-valeur [label]="'Nationalité *'" [valeur]="form.get('nationalite').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Numéro de titre de séjour'" [valeur]="form.get('numeroDeTitreDeSejour').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Type de titre de séjour'" [valeur]="form.get('typeDeTitreDeSejour').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Date de fin validité du titre de séjour'" [valeur]="dateToDisplay" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+</div>

@@ -1,0 +1,8 @@
+<app-tableau
+  [gridOptions]="gridOptions"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [pagination]="false"
+  [total]="{labelId: 'periode', valuesId: ['montantDeclare', 'montantCalcule']}"
+  (gridReady)="onGridReady($event)"
+></app-tableau>

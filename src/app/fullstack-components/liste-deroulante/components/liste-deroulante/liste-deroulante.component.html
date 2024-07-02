@@ -1,0 +1,21 @@
+<div class="form row d-flex">
+  <label *ngIf="label" for="select{{index}}" class="col-{{labelColumns}} col-form-label" [ngStyle]="{'width': labelWidth + 'px'}" [ngClass]="{'col-form-label-fix': labelWidth}">{{label}}</label>
+  <div class="col-{{inputColumns}} position-relative" [ngStyle]="fillInput && {'width': 'calc(100% - '+ labelWidth + 'px)'}">
+    <select class="form-select overflow-ellipsis" [formControl]="form" id="select{{index}}"
+      [ngClass]="{'warning': !form.valid && !form.disabled && !isError && form.touched, 'error': !form.valid && !form.disabled && isError && form.touched}"
+    >
+      <option *ngIf="hasBlankOption" [ngValue]="''"></option>
+      <option *ngFor="let option of options" [ngValue]="option.value">{{option.text}}</option>
+    </select>
+    <span *ngIf="!form.valid && !form.disabled && !isError && form.touched" class="icon-warning d-flex align-items-center" aria-hidden="true"
+      [ngbPopover]="array.isArray(errorMessage) ? list : errorMessage" triggers="mouseenter:mouseleave focus" tabindex="0"></span>
+    <span *ngIf="!form.valid && !form.disabled && isError && form.touched" class="icon-error d-flex align-items-center" aria-hidden="true"
+      [ngbPopover]="array.isArray(errorMessage) ? list : errorMessage" triggers="mouseenter:mouseleave focus" tabindex="0"></span>
+  </div>
+</div>
+
+<ng-template #list>
+  <ng-container *ngFor="let error of errorMessage; let last = last">
+    <div [ngClass]="{ 'mb-2': !last }">{{ error.message }}</div>
+  </ng-container>
+</ng-template>

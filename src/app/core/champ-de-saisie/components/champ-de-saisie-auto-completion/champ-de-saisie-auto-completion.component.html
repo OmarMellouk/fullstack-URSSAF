@@ -1,0 +1,17 @@
+<form>
+  <div class="row">
+    <div class="col-4">
+      <app-champ-de-saisie-auto-completion
+        [label]="'Label champ de saisie'"
+        [index]="10"
+        [form]="form.get('commune')"
+        [labelWidth]="148"
+        [autoCompleteResults]="communes"
+        [editable]="false"
+        [placeholder]="'Saisir au moins 2 caractères'"
+        [displaySearchIcon]="true"
+      ></app-champ-de-saisie-auto-completion>
+      <div class="mt-2">Saisissez par exemple "06" pour voir l'auto-complétion.</div>
+    </div>
+  </div>
+</form>

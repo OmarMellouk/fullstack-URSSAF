@@ -1,0 +1,31 @@
+<div class="modal-header d-flex align-items-baseline">
+  <div class="modal-title">{{title}}</div>
+  <button class="close-modal" aria-hidden="true" (click)="closePopup(0)">
+    <svg-icon [src]="'assets/icones-showcase/m_close.svg'" [svgStyle]="{ 'width.em':1.5, 'height.em':1.5}"></svg-icon>
+  </button>
+</div>
+
+<div class="modal-body">
+  <ng-content select="[toast]"></ng-content>
+  <div class="d-flex">
+    <div class="modal-icon" *ngIf="iconToDisplay">
+      <svg-icon [src]="iconToDisplay" [svgStyle]="{ 'width.em':1, 'height.em':1}"></svg-icon>
+    </div>
+    <div class="modal-text-container">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="button-group">
+    <button type="button" class="btn btn-outline-primary" (click)="closePopup(3)" *ngIf="thirdButton">
+      <i *ngIf="thirdButton.icone" class="{{thirdButton.icone}}" aria-hidden="true"></i><span>{{thirdButton?.label}}</span>
+    </button>
+    <button type="button" class="btn btn-outline-primary" (click)="closePopup(2)" *ngIf="secondButton">
+      <i *ngIf="secondButton.icone" class="{{secondButton.icone}}" aria-hidden="true"></i><span>{{secondButton.label}}</span>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="closePopup(1)" *ngIf="firstButton" [disabled]="!isFormValid">
+      <i *ngIf="firstButton.icone" class="{{firstButton.icone}}" aria-hidden="true"></i><span>{{firstButton.label}}</span>
+    </button>
+  </div>
+</div>

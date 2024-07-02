@@ -1,0 +1,259 @@
+<div *ngIf="!isConnecte()">
+  <div class="mb-3">
+    <div class="col">
+      <p>Ce formulaire vous permet de <strong>générer un Jeton Front Portail</strong> en personnalisant la configuration pour simuler le portail dans lequel sera intégré votre application.
+        <br>
+        Suite à cette création, un formulaire vous permettra d'en dériver des Jetons Front Applicatif qui pourront être transmis à l'application.
+      </p>
+    </div>
+  </div>
+  <app-zone-information>
+    <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+    <ng-container header>
+      <h2>Configuration Jeton Portail</h2>
+    </ng-container>
+
+    <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->	
+    <ng-container body>
+      <div class="row">
+        <div class="col-xl-9 col-lg-12">
+          <div class="mb-3">
+            <div class="col d-flex">
+              <label for="option" class="env-label">Environnement configuration (préréglage) :&nbsp;</label>
+              <select [(ngModel)]="selectedPreset" id="selectedEnv" (change)="updatePreset();" class="form-select" >
+                <option *ngFor="let aPreset of allPresets" [ngValue]="aPreset">
+                  {{aPreset.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="prismeAuthzEndpointInput">URL Authz Endpoint (connexion initiale)</label>
+              <input #prismeAuthzEndpointInput
+                type="text"
+                class="form-control mt-0 w-100"
+                id="prismeAuthzEndpointInput"
+                placeholder="Endpoint URL{{prismeAngularConfiguration.prismeAuthzEndpoint}}"
+                value="{{activePreset.prismeAuthzEndpoint}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="loginURLInput">URL Token Endpoint</label>
+              <input #prismeTokenEndpointInput
+                type="text"
+                class="form-control mt-0 w-100"
+                id="prismeTokenEndpointInput"
+                placeholder="Endpoint URL{{prismeAngularConfiguration.prismeTokenEndpoint}}"
+                value="{{activePreset.prismeTokenEndpoint}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="prismeKeysEndpointInput">URL Keys Endpoint</label>
+              <input #prismeKeysEndpointInput
+                type="text"
+                class="form-control mt-0 w-100"
+                id="prismeKeysEndpointInput"
+                placeholder="Endpoint URL{{prismeAngularConfiguration.prismeKeysEndpoint}}"
+                value="{{activePreset.prismeKeysEndpoint}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="prismeUserEndpointInput">URL User Info Endpoint</label>
+              <input #prismeUserEndpointInput
+                type="text"
+                class="form-control mt-0 w-100"
+                id="prismeUserEndpointInput"
+                placeholder="Endpoint URL{{prismeAngularConfiguration.prismeUserEndpoint}}"
+                value="{{activePreset.prismeUserEndpoint}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="loginScopesFront">Scopes Front</label>
+              <input #loginScopesFront
+                type="text"
+                class="form-control mt-0 w-100"
+                id="loginScopesFront"
+                placeholder="Scope front demandé{{prismeAngularConfiguration.prismeScopeFront}}"
+                value="{{activePreset.prismeScopeFront}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="loginScopesBack">Scopes Back</label>
+              <input #loginScopesBack
+                type="text"
+                class="form-control mt-0 w-100"
+                id="loginScopesBack"
+                placeholder="Scope front demandé{{prismeAngularConfiguration.prismeScopeBack}}"
+                value="{{activePreset.prismeScopeBack}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="prismeClientId">Client ID</label>
+              <input #prismeClientId
+                type="text"
+                class="form-control mt-0 w-100"
+                id="prismeClientId"
+                placeholder="Identifiant LDAP de l'utilisateur, ex : {{prismeAngularConfiguration.prismeClientId}}"
+                value="{{activePreset.prismeClientId}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="prismeClientSecret">Client secret</label>
+              <input #prismeClientSecret
+                type="password"
+                class="form-control mt-0 w-100"
+                id="prismeClientSecret"
+                placeholder="Client secret demandé {{prismeAngularConfiguration.prismeClientSecret}}"
+                value="{{activePreset.prismeClientSecret}}"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="col">
+              <label class="form-label" for="prismeCodeApp">Code App</label>
+              <input #prismeCodeApp
+                type="text"
+                class="form-control mt-0 w-100"
+                id="prismeCodeApp"
+                placeholder="Code application (PORA, FUST...) {{prismeAngularConfiguration.prismeCodeApp}}"
+                value="{{activePreset.prismeCodeApp}}"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-secondary" (click)="login(prismeAuthzEndpointInput, prismeTokenEndpointInput, prismeKeysEndpointInput, prismeUserEndpointInput, loginScopesFront, loginScopesBack, prismeClientId, prismeClientSecret, prismeCodeApp)" >
+              Connexion
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </app-zone-information>
+</div>
+
+<div *ngIf="isConnecte()" class="card-body">
+  <div class="mb-3">
+    <app-zone-information>
+      <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+      <ng-container header>
+        <h2>Jetons et Droits SPA portail utilisés</h2>
+      </ng-container>
+  
+      <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->	
+      <ng-container body>
+        <h3>Utilisateur :</h3>
+        <div class="bloc-exemple">
+          <p>{{getUtilisateur()}}</p>
+        </div>
+        <h3>Droits Front :</h3>
+        <div class="bloc-exemple">
+          <p>{{loginService.getDroitsUtilisateur()}}</p>
+        </div>
+        <div class="d-flex mb-2 mx-0">
+          <h3 class="my-auto pe-3">Token Front :</h3>
+          <button type="button" class="btn btn-secondary" (click)="copyToken('front')">Copier</button>
+        </div>
+        <div class="bloc-exemple">
+          <p id="tokenFrontOutput" class="text-break">{{loginService.getAccessTokenFront()}}</p>
+        </div>
+        <h3>Droits Back :</h3>
+        <div class="bloc-exemple">
+          <p>{{loginService.getDroitsUtilisateurBack()}}</p>
+        </div>
+        <div class="d-flex mb-2 mx-0">
+          <h3 class="my-auto pe-3">Token Back :</h3>
+          <button type="button" class="btn btn-secondary" (click)="copyToken('back')">Copier</button>
+        </div>
+        <div class="bloc-exemple">
+          <p id="tokenBackOutput" class="text-break">{{loginService.getAccessTokenBack()}}</p>
+        </div>
+        <div>
+          <button type="button" class="btn btn-secondary" (click)="logout()">D&eacute;connexion</button>
+        </div>
+      </ng-container>
+    </app-zone-information>
+  </div>
+
+  <p>Ce formulaire vous permet de dériver votre Jeton Front Portail en <strong>Jetons Fronts Applicatifs</strong> qui pourront ensuite être utilisés par votre application.</p>
+
+  <div class="mb-3">
+    <app-zone-information>
+      <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+      <ng-container header>
+        <h2>Configuration Jeton Front à dériver</h2>
+      </ng-container>
+  
+      <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->	
+      <ng-container body>
+        <div class="row">
+          <div class="col-xl-9 col-lg-12">
+            <div class="mb-3">
+              <div class="col">
+                <label class="form-label" for="urlTokenInput">URL Token Endpoint (dérivation du token principal)</label>
+                <input #urlTokenInput
+                  type="text"
+                  class="form-control mt-0 w-100"
+                  id="urlTokenInput"
+                  placeholder="{prismeAngularConfiguration.prismeTokenEndpoint}"
+                  value="{{prismeAngularConfiguration.prismeTokenEndpoint}}"
+                />
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="col">
+                <label class="form-label" for="frontScopeInput">Droits Front demandés :</label>
+                <input #frontScopeInput
+                  type="text"
+                  class="form-control mt-0 w-100"
+                  id="frontScopeInput"
+                  placeholder="openid *:FULLSTACK-FE"
+                  value="{{prismeAngularConfiguration.prismeScopeFront}}"
+                />
+              </div>
+            </div>
+            <div class="mb-3 justify-content-start">
+                <div class="col-auto">
+                  <button type="button" class="btn btn-secondary" (click)="deriveToken(urlTokenInput, frontScopeInput)">Créer token  dérivé</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </app-zone-information>
+  </div>
+
+  <div>
+    <ul>
+      <li *ngFor="let aToken of allToken; let i = index" [attr.data-index]="i" class="text-break mb-3">
+          <strong>Id jeton applicatif : </strong>{{i}} <button type="button" class="btn btn-secondary ms-2 mb-1" (click)="openTokenPopupMessage(aToken)">Afficher token front</button>
+          <br>
+          <strong>RequestURL : </strong>{{aToken.requestURL}}
+          <br>
+          <strong>RequestScope : </strong>{{aToken.requestScope}}
+          <br>
+          <strong>Resquest : </strong>{{aToken.resquest}}
+          <br>
+          <strong>Response : </strong>{{aToken.response}}
+          <br>
+          <strong>Droits Front : </strong>{{aToken.droitsFront}}
+      </li>
+    </ul>
+  </div>
+
+
+

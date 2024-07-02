@@ -1,0 +1,27 @@
+<app-onglet [type]="ongletTypeEnum.PREMIER_NIVEAU" [(active)]="active">
+
+  <!-- Header de l'onglet -->
+  <app-onglet-header-container *ngFor="let onglet of onglets; index as index">
+    <app-onglet-header class="d-flex" [tab]="onglet" [type]="ongletTypeEnum.PREMIER_NIVEAU"></app-onglet-header>
+  </app-onglet-header-container>
+  
+  <!-- Contenu de l'onglet -->
+  <div class="row">
+    <div class="col-5">
+      <app-label-valeur [label]="'Numéro de pièce'" [valeur]="'11094'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+      <app-label-valeur [label]="'Numéro d\'intervention'" [valeur]="'0618979'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+      <app-label-valeur [label]="'Origine de la déclaration'" [valeur]="'DSN machine to machine avec anomalie TD48'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+      <app-label-valeur [label]="'Date de dernière modification'" [valeur]="'05/03/2016'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+      <app-label-valeur [label]="'Code échéance'" [valeur]="'RG Mensuel au 15 du mois suivant sans éditiom d\'appel'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+      <app-label-valeur [label]="'Code paie'" [valeur]="'Fin de mois'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+    </div>
+    <div class="col-7">
+      <app-tableau
+        [gridOptions]="gridOptions"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [pagination]="false"
+      ></app-tableau>
+    </div>
+  </div>
+</app-onglet>

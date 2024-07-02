@@ -1,0 +1,26 @@
+/** CSS Spécifique à l'affiche de cette IHM d'exemple **/
+
+.col-icon {
+  width: 2.857rem; // 40px
+  margin-right: 1.5rem; // 21px
+}
+
+.col-next-to-icon {
+  width: calc(100% - 4.357rem); // 61px = 40 + 21
+}
+
+.col-with-border {
+  border-left: 0.071rem solid #E8E8E8; // 1px
+  width: calc(33% - 4.357rem); // 61 px  = 40 + 21
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 1.857rem; // 26px
+}
+
+.icon-b_calendar {
+  font-size: 2.857rem; // 40px
+
+   &:before {
+    color: #28A482;
+   }
+}

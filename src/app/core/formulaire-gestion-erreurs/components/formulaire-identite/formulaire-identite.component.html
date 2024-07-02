@@ -1,0 +1,41 @@
+<svg-icon class="error-form-icon" src="assets/icones-projets/GA/d_ident.svg" [svgStyle]="{ 'width.em': 2.615, 'height.em': 1.923}"></svg-icon>
+<div class="w-100" *ngIf="isEditing">
+  <app-boutons-radio-label 
+    [label]="'Sexe *'" [radioLabelList]="radioLabelList" [index]="0" [labelWidth]="labelWidthRadio" [fillInput]="true"
+    [formGroup]="form" [controlName]="'sexe'" [isError]="true" [errorMessage]="form.get('sexe').errors?.message || form.get('sexe').errors"
+  ></app-boutons-radio-label>
+  <app-boutons-radio-label
+    [label]="'Civilité *'" [radioLabelList]="radioLabelList2" [index]="1" [labelWidth]="labelWidthRadio" [fillInput]="true"
+    [formGroup]="form" [controlName]="'civilite'" [isError]="true" [errorMessage]="form.get('civilite').errors?.message || form.get('civilite').errors"
+  ></app-boutons-radio-label>
+  <app-champ-de-saisie 
+    [label]="'Nom patronymique *'" [index]="2" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('nomPatronymique')" [isError]="true" [errorMessage]="form.get('nomPatronymique').errors?.message || form.get('nomPatronymique').errors"
+  ></app-champ-de-saisie>
+  <app-champ-de-saisie 
+    [label]="'Prénoms patronymiques'" [index]="3" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('prenomsPatronymiques')" [isError]="true" [errorMessage]="form.get('prenomsPatronymiques').errors?.message || form.get('prenomsPatronymiques').errors"
+  ></app-champ-de-saisie>
+  <app-champ-de-saisie 
+    [label]="'Nom d\'usage'" [index]="4" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('nomUsage')" [isError]="true" [errorMessage]="form.get('nomUsage').errors?.message || form.get('nomUsage').errors"
+  ></app-champ-de-saisie>
+  <app-champ-de-saisie 
+    [label]="'Prénom d\'usage'" [index]="5" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('prenomUsage')" [isError]="true" [errorMessage]="form.get('prenomUsage').errors?.message || form.get('prenomUsage').errors"
+  ></app-champ-de-saisie>
+  <app-champ-de-saisie 
+    [label]="'Pseudonyme'" [index]="6" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('pseudonyme')" [isError]="true" [errorMessage]="form.get('pseudonyme').errors?.message || form.get('pseudonyme').errors"
+  ></app-champ-de-saisie>        
+</div>
+
+<div class="w-100" *ngIf="!isEditing">
+  <app-label-valeur [label]="'Sexe *'" [valeur]="form.get('sexe').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Civilité *'" [valeur]="form.get('civilite').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Nom patronymique *'" [valeur]="form.get('nomPatronymique').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Prénoms patronymiques'" [valeur]="form.get('prenomsPatronymiques').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Nom d\'usage'" [valeur]="form.get('nomUsage').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Prénom d\'usage'" [valeur]="form.get('prenomUsage').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Pseudonyme'" [valeur]="form.get('pseudonyme').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>        
+</div>

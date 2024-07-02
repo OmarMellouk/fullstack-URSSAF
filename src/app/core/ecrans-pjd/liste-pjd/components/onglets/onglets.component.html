@@ -1,0 +1,13 @@
+<div class="onglet-margin">
+  <app-onglet [type]="ongletTypeEnum.PREMIER_NIVEAU" [(active)]="active">
+    <!-- Header de l'onglet -->
+    <app-onglet-header-container *ngFor="let onglet of onglets; index as index">
+      <app-onglet-header class="d-flex" [tab]="onglet" [type]="ongletTypeEnum.PREMIER_NIVEAU"></app-onglet-header>
+    </app-onglet-header-container>
+      
+    <!-- Contenu de l'onglet -->
+    <app-tableau-liste-pieces></app-tableau-liste-pieces>
+
+    <app-piece-annuelle></app-piece-annuelle>
+  </app-onglet>  
+</div>

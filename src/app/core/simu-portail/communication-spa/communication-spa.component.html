@@ -1,0 +1,123 @@
+<div class="col">
+  &nbsp;Cette section vous permet de :
+  <ul>
+    <li>Simuler l'envoi de messages Communication SPA :
+      <ul>
+        <li>Standards (aux applications enfant, à l'application parent, à tous)</li>
+        <li>Spécifiques (à un destinataire, d'initialisation)</li>
+        <li>De réponse (reply)</li>
+      </ul>
+    </li>
+    <li>Mise en place de handlers afin de valider la reception de messages émis par votre application</li>
+    <li>Lister les messages reçus</li>
+  </ul>
+
+  <div class="mb-3">
+    <app-zone-information>
+      <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+      <ng-container header>
+        <h2>Messages</h2>
+      </ng-container>
+
+      <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->
+      <ng-container body>
+        <table aria-hidden="true">
+          <tr>
+            <td class="pe-3">
+              <input class="form-control" style="width:20.357rem" id="messageNamespace" #messageNamespace placeholder="namespace" value="namespace" /></td>
+            <td class="pe-3">
+              <input class="form-control" style="width:20.357rem" id="messageTopic" #messageTopic placeholder="topic" value="topic" /></td>
+            <td class="pe-3">
+              <input class="form-control" style="width:20.357rem" id="messageMessage" #messageMessage placeholder="message" value="Hello" /></td>
+          </tr>
+          <tr>
+            <td><button style="width:20.357rem" type="button" class="btn btn-secondary" id="sendMessageToChildren" (click)="sendMessageToChildren(messageNamespace,messageTopic,messageMessage)">Envoi message aux enfants</button></td>
+            <td><button style="width:20.357rem" type="button" class="btn btn-secondary" id="sendMessageToParent" (click)="sendMessageToParent(messageNamespace,messageTopic,messageMessage)">Envoi message au parent</button></td>
+            <td><button style="width:20.357rem" type="button" class="btn btn-secondary" id="sendMessageBoadcast" (click)="sendMessageBoadcast(messageNamespace,messageTopic,messageMessage)">Envoi message à tous</button></td>
+          </tr>
+          <tr>
+            <td>
+              <button style="width:20.357rem" type="button" class="btn btn-secondary"  [disabled]="!selectedUUID" (click)="sendChildMessage(messageNamespace, messageTopic, messageMessage)">Envoi message au destinataire -> </button>
+            </td>
+            <td>
+              <button style="width:20.357rem" id="sendChildInitMessage" type="button" class="btn btn-secondary"  [disabled]="!selectedUUID" (click)="sendChildInitMessage(messageNamespace, messageTopic, messageMessage)"> (init) </button>
+            </td>
+            <td>
+              <select class="form-select" [(ngModel)]="selectedUUID" style="width:20.357rem" #destinataireUUID>
+                <option></option>
+                <option *ngFor="let anUUID of allComponentUUID" [hidden]="!anUUID" [ngValue]="anUUID" >{{anUUID}}</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+                <select class="form-select" [(ngModel)]="selectedMessage" style="width:42rem" id='allMessageSelect'>
+                    <option></option>
+                    <option *ngFor="let aMessage of allMessages; let i = index" [ngValue]="aMessage" >({{i}}) {{aMessage.label}}</option>
+                </select>
+            </td>
+            <td >
+                <button type="button" class="btn btn-secondary" [disabled]="!selectedMessage" (click)="sendReplyMessage(messageNamespace, messageTopic, messageMessage, selectedMessage.message)">-> Reply </button>
+            </td>
+          </tr>
+        </table>
+      </ng-container>
+    </app-zone-information>
+  </div>
+
+  <div class="mb-3">
+    <app-zone-information>
+      <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+      <ng-container header>
+        <h2>Ajout de handlers</h2>
+      </ng-container>
+
+      <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->
+      <ng-container body>
+        <table aria-hidden="true">
+          <tr>
+            <td>
+              <input class="form-control" style="width:18.929rem" id="handlerNamespace" #handlerNamespace placeholder="namespace" value="namespace" class="form-control" /></td>
+            <td>
+              <input class="form-control" style="width:18.929rem" id="handlerTopic" #handlerTopic placeholder="topic" value="topic" /></td>
+            <td>
+              <input class="form-control" style="width:18.929rem" id="handlerMessage" #handlerMessage placeholder="message" value="handler description" />
+            </td>
+            <td>
+            <button type="button" id="addHandler" class="btn btn-secondary ms-3" (click)="addHandler(handlerNamespace, handlerTopic, handlerMessage)">Créer Handler</button>
+          </td>
+          </tr>
+        </table>
+      </ng-container>
+    </app-zone-information>
+  </div>
+
+  <app-zone-information>
+    <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+    <ng-container header>
+      <h2>Messages reçus</h2>
+    </ng-container>
+
+    <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->
+    <ng-container body>
+      <table style="width:100%" aria-hidden="true" id="theMessageTable">
+        <thead>
+            <tr>
+                <td><strong>Application</strong></td>
+                <td><strong>Namespace</strong></td>
+                <td><strong>Topic</strong></td>
+                <td><strong>Payload object</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let aMessage of allMessages">
+                <td>{{aMessage.message.appName}}</td>
+                <td>{{aMessage.message.namespace}}</td>
+                <td>{{aMessage.message.topic}}</td>
+                <td>{{aMessage.valueAsString}}</td>
+            </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </app-zone-information>
+</div>

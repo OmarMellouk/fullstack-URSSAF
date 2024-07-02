@@ -1,0 +1,33 @@
+<!-- Spinner de chargement -->
+<div *ngIf="spinnerActif">
+  <app-mire-attente class="d-flex justify-content-center"></app-mire-attente>
+</div>
+
+<!-- Message d'erreur -->
+<app-note-statique [category]="toastCategoryEnum.ERROR"></app-note-statique>
+
+
+<div *ngIf="!spinnerActif && !erreur">
+
+  <div class="row">
+    <div class="col-9">
+      <button type="button" class="btn btn mb-2 btn-secondary" routerLink="./add-entreprise">
+        Ajouter une entreprise
+      </button>
+    </div>
+
+    <!-- Health check du service api-v2 -->
+    <div class="col-3">
+      <div class="row" *ngIf="isServiceV2Up">
+        <h3 style="margin-right:2%;"> État du service api-v2 : OK <i class="icon-b_valid_1" aria-hidden="true"></i></h3>
+      </div>
+      <div class="row" *ngIf="!isServiceV2Up">
+        <h3 style="margin-right:2%;"> État du service api-v2 : KO <i class="icon-warning" aria-hidden="true"></i></h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table d'entreprises -->
+  <app-entreprises-table></app-entreprises-table>
+
+</div>

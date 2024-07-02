@@ -1,0 +1,38 @@
+<app-wizard [wizard]="wizard" [active]="active" (stepClicked)="stepClicked($event)" [stepWidth]="240" [alwaysDisplayNavigation]="alwaysDisplayNavigation"></app-wizard>
+
+<div class="card mb-3 mt-3">
+  <div class="card-body">
+    <div class="bloc-exemple">
+      <div *ngIf="active === 2">
+        <app-wizard-form-individu [formIndividu]="formIndividu" [errorMessage]="errorMessage"></app-wizard-form-individu>
+      </div>
+      <div *ngIf="active === 3">
+        <app-wizard-form-entreprise [formEntreprise]="formEntreprise" [errorMessage]="errorMessage"></app-wizard-form-entreprise>
+      </div>
+      <div *ngIf="active === 4">
+        <app-wizard-form-etablissement [formEtablissement]="formEtablissement" [errorMessage]="errorMessage"></app-wizard-form-etablissement>
+      </div>
+      <div *ngIf="active === 5">
+        <app-wizard-form-contact [formMoyensDeContact]="formMoyensDeContact" [errorMessage]="errorMessage"></app-wizard-form-contact>
+      </div>
+      <div *ngIf="active === 6">
+        <app-wizard-form-adresse [formAdresse]="formAdresse" [errorMessage]="errorMessage"></app-wizard-form-adresse>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="button-group float-end">
+  <button type="button" class="btn btn-outline-primary" [routerLink]="'/'">
+    <i class="icon-b_cancel" aria-hidden="true"></i><span>Abandonner</span>
+  </button>
+  <button type="button" class="btn btn-primary" (click)="previousStep()" [disabled]="active <= 2">
+    <i class="icon-b_left" aria-hidden="true"></i><span>Précédent</span>
+  </button>
+  <button *ngIf="active < wizard.length" type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="!enableNextButton()">
+    <span>Suivant</span><i class="icon-b_right icon-on-right" aria-hidden="true"></i>
+  </button>
+  <button *ngIf="active === wizard.length" type="button" class="btn btn-primary" [disabled]="alwaysDisplayNavigation ? formAdresse.invalid : formEtablissement.invalid">
+    <i class="icon-b_valid" aria-hidden="true"></i><span>Finaliser</span>
+  </button>
+</div>

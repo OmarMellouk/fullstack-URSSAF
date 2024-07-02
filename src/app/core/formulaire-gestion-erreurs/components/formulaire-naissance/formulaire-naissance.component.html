@@ -1,0 +1,35 @@
+<svg-icon class="error-form-icon" src="assets/icones-projets/GA/d_calendar.svg" [svgStyle]="{ 'width.em': 2.308, 'height.em': 2.769}"></svg-icon>
+<div class="w-100" *ngIf="isEditing">
+  <div class="form row d-flex">
+    <label for="dateDeNaissance" class="col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidth + 'px'}">Date de naissance *</label>
+    <app-date-picker 
+      [currentDate]="form.get('dateDeNaissance')" class="ps-0" [spaceForControl]="true" 
+      [ngStyle]="{'width': 'calc(100% - '+ labelWidth + 'px)'}" [fullWidth]="true" 
+      [customErrorMessage]="form.get('dateDeNaissance').errors?.message || form.get('dateDeNaissance').errors"
+      [isError]="form.get('dateDeNaissance').invalid && form.get('dateDeNaissance').touched"
+    ></app-date-picker>
+  </div>
+
+  <app-liste-deroulante 
+    [label]="'Pays de naissance *'" [index]="8" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('paysDeNaissance')" [options]="[{value: '100 - France', text: '100 - France'}]" [isError]="true" 
+    [errorMessage]="form.get('paysDeNaissance').errors?.message || form.get('paysDeNaissance').errors"
+  ></app-liste-deroulante>
+  <app-liste-deroulante
+    [label]="'Commune de naissance'" [index]="9" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('communeDeNaissance')" [options]="[{value: '75100 - Paris', text: '75100 - Paris'}]"
+    [isError]="true" [errorMessage]="form.get('communeDeNaissance').errors?.message || form.get('communeDeNaissance').errors">
+  </app-liste-deroulante>
+  <app-liste-deroulante
+    [label]="'Commune de naissance à l\'étranger'" [index]="10" [labelWidth]="labelWidth" [fillInput]="true"
+    [form]="form.get('communeDeNaissanceEtranger')" [options]="[]" 
+    [isError]="true" [errorMessage]="form.get('communeDeNaissanceEtranger').errors?.message || form.get('communeDeNaissanceEtranger').errors"
+  ></app-liste-deroulante>
+</div>
+
+<div class="w-100" *ngIf="!isEditing">
+  <app-label-valeur [label]="'Date de naissance *'" [valeur]="dateDeNaissanceToDisplay" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Pays de naissance *'" [valeur]="form.get('paysDeNaissance').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Commune de naissance'" [valeur]="form.get('communeDeNaissance').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+  <app-label-valeur [label]="'Commune de naissance à l\'étranger'" [valeur]="form.get('communeDeNaissanceEtranger').value" [labelWidth]="labelWidth" [fillInput]="true"></app-label-valeur>
+</div>

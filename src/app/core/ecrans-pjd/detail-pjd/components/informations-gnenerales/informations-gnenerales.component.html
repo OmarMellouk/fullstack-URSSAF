@@ -1,0 +1,40 @@
+<app-zone-information>
+  <ng-container header>
+    <h2>Informations générales</h2>
+    <div class="ms-auto default-font">
+      <a [routerLink]="[]" class="border-end pe-2">Voir la situation comptable</a>
+      <a [routerLink]="[]" class="ps-2">Voir la situation de la répartition</a>
+    </div>
+  </ng-container>
+
+  <ng-container body>
+    <div class="row">
+      <div class="col-4 pe-0">
+        <app-label-valeur [label]="'Numéro de PJD'" [valeur]="'1543 0099910'" [labelWidth]="243" [labelColumns]="7" [inputColumns]="5"></app-label-valeur>
+        <app-label-valeur [label]="'Origine du débit'" [valeur]="'1 - Pièce de débit avec bases employeur'" [labelWidth]="243" [labelColumns]="7" [inputColumns]="5"></app-label-valeur>
+        <app-label-valeur [label]="'Date de réception'" [valeur]="'05/03/2016'" [labelWidth]="243" [labelColumns]="7" [inputColumns]="5"></app-label-valeur>
+        <app-label-valeur [label]="'Date limite de déclaration'" [valeur]="'15/01/2016'" [labelWidth]="243" [labelColumns]="7" [inputColumns]="5"></app-label-valeur>
+        <app-label-valeur [label]="'Date limite légale de versement'" [valeur]="'15/12/2015'" [labelWidth]="243" [labelColumns]="7" [inputColumns]="5"></app-label-valeur>
+        <app-label-valeur [label]="'Date limite tolérée de versement'" [valeur]="'18/12/2016'" [labelWidth]="243" [labelColumns]="7" [inputColumns]="5"></app-label-valeur>
+        <app-label-valeur [label]="'Origine de la date limite de versement'" [valeur]="'Terme légal'" [labelWidth]="243" [labelColumns]="7" [inputColumns]="5"></app-label-valeur>
+      </div>
+      <div class="col-4 p-0">
+        <app-label-valeur [label]="'Effectif utilisé pour le calcul des pénalités'" [valeur]="'49'" [labelWidth]="342" [labelColumns]="10" [inputColumns]="2"></app-label-valeur>
+        <app-label-valeur [label]="'Nombre de pénalités à appliquer'" [valeur]="'35'" [labelWidth]="342" [labelColumns]="10" [inputColumns]="2"></app-label-valeur>
+        <app-label-valeur [label]="'Effectif moyen mensuel'" [valeur]="'48'" [labelWidth]="342" [labelColumns]="10" [inputColumns]="2"></app-label-valeur>
+        <app-label-valeur [label]="'Origine de l\'effectif moyen mensuel'" [valeur]="'Employeur'" [labelWidth]="342" [labelColumns]="10" [inputColumns]="2"></app-label-valeur>
+        <app-label-valeur [label]="'Effectif inscrit au dernier jour de la période'" [valeur]="'41'" [labelWidth]="342" [labelColumns]="10" [inputColumns]="2"></app-label-valeur>
+        <app-label-valeur [label]="'Origine de l\'effectif inscrit au dernier jour de la période'" [valeur]="'Employeur'" [labelWidth]="342" [labelColumns]="10" [inputColumns]="2"></app-label-valeur>
+      </div>
+      <div class="col-4 ps-0">
+        <app-label-valeur [label]="'Numéro de pièce'" [valeur]="'11094'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+        <app-label-valeur [label]="'Numéro d\'intervention'" [valeur]="'0618979'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+        <app-label-valeur [label]="'Origine de la déclaration'" [valeur]="'DSN machine to machine avec anomalie TD48'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+        <app-label-valeur [label]="'Date de dernière modification'" [valeur]="'05/03/2016'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+        <app-label-valeur [label]="'Code échéance'" [valeur]="'RG Mensuel au 15 du mois suivant sans éditiom d\'appel'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+        <app-label-valeur [label]="'Code paie'" [valeur]="'Fin de mois'" [labelWidth]="194" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+      </div>
+    </div>
+  </ng-container>
+
+</app-zone-information>

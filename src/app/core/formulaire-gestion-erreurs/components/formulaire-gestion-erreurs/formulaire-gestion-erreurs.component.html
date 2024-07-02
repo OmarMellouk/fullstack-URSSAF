@@ -1,0 +1,61 @@
+<div class="my-3">
+  <app-note-statique [category]="toastCategoryEnum.ERROR"></app-note-statique>
+</div>
+
+<app-zone-information>
+  <!-- Header zone d'information -->
+  <ng-container header>
+    <div class="row w-100">
+      <div class="d-flex col-4" *ngIf="isEditing">
+        <label for="input20" class="col-form-label nir" [ngStyle]="{'width': labelNirWidth + 'px'}" [ngClass]="{'col-form-label-fix': labelNirWidth}">NIR *</label>
+        <app-champ-de-saisie 
+          class="my-auto" [index]="20" [form]="form.get('nir')" [labelWidth]="labelNirWidth" [fillInput]="true" 
+          [isError]="true" [errorMessage]="form.get('nir').errors?.message || form.get('nir').errors" [maxlength]="13" (keypress)="allowOnlyNumber($event)"
+        ></app-champ-de-saisie>
+      </div>
+      <div class="d-flex col-4" *ngIf="!isEditing">
+        <label class="my-auto me-2">NIR</label>
+        <div class="my-auto">{{form.get('nir').value | textFormat: TextFormat.NIR}}</div>
+      </div>
+
+      <div class="d-flex col-6">
+        <label class="my-auto me-2">Indice de certification du NIR</label>
+        <div class="my-auto">Non vérifié auprès du SNGI</div>
+      </div>
+
+      <div class="col-2 button-group text-end" *ngIf="!isEditing">
+        <button class="btn btn-secondary" (click)="toggleEdition()">Modifier</button>
+      </div>
+    </div>
+  </ng-container>
+
+<!-- Contenu zone d'information -->
+  <ng-container body>
+    <!-- Formulaires -->
+    <div class="row ms-0">
+      <!-- Colonne 1 -->
+      <app-formulaire-identite class="col-4 ps-0 d-flex" [form]="form" [isEditing]="isEditing"></app-formulaire-identite>
+      <!-- Colonne 2 -->
+      <div class="col-4 border-left">
+        <app-formulaire-naissance class="d-flex" [form]="form" [isEditing]="isEditing"></app-formulaire-naissance>
+        <app-formulaire-deces  class="d-flex border-top"></app-formulaire-deces>
+      </div>
+      <!-- Colonne 3 -->
+      <div class="col-4 border-left">
+        <app-formulaire-nationalite class="d-flex" [form]="form" [isEditing]="isEditing"></app-formulaire-nationalite>
+        <app-formulaire-adresse class="d-flex border-top"></app-formulaire-adresse>
+      </div>
+    </div>
+
+    <!-- Boutons -->
+    <div class="button-group text-end mt-2" *ngIf="isEditing">
+      <button type="button" class="btn btn-outline-primary" (click)="cancel()">
+        <i class="icon-b_cancel" aria-hidden="true"></i><span>Annuler</span>
+      </button>
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!form.valid && form.touched">
+        <i class="icon-b_valid" aria-hidden="true"></i><span>Enregistrer</span>
+      </button>
+    </div>
+
+  </ng-container>
+</app-zone-information>

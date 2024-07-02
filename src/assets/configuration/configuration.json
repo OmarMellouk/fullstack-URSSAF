@@ -1,0 +1,49 @@
+{
+  "environnement": {
+    "name": "dev"
+  },
+  "application": {
+    "name": "fullstack",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "logging": {
+    "console": true,
+    "level": 0,
+    "logLevelDescription": "TRACE = 0, DEBUG = 1, INFO = 2, LOG = 3, WARN = 4, ERROR = 5, FATAL = 6, OFF = 7"
+  },
+  "apiServer": {
+    "baseUrl": "https://gateway-assemblage.gidn.recouv/fullstack_be"
+},
+  "prismeConfiguration": {
+    "prismeAuthzEndpoint": "https://gateway-assemblage.gidn.recouv/security/v1/pss/authz",
+    "prismeTokenEndpoint": "https://gateway-assemblage.gidn.recouv/security/v1/pss/token",
+    "prismeKeysEndpoint": "https://gateway-assemblage.gidn.recouv/security/v1/pss/jwks/public",
+    "prismeUserEndpoint": "https://gateway-assemblage.gidn.recouv/security/v1/pss/user-info",
+    "prismeClientId": "cn=USR_READ_NAT_APP_FUST,ou=FUST,ou=Applications,ou=Technique,dc=recouv",
+    "prismeClientSecret": "p1Ed8$q?Cud3Z1SU6Th>g",
+    "prismeCodeApp": "FUST",
+    "prismeScopeFront": "openid *:FUST",
+    "prismeScopeBack": "openid *:FULLSTACK-BE",
+
+    "_prismeAuthzEndpoint": "http://pss.c1.giin.recouv/pss/endpoint/authz/1/",
+    "_prismeTokenEndpoint": "http://pss.c1.giin.recouv/pss/endpoint/token/1/",
+    "_prismeKeysEndpoint": "http://pss.c1.giin.recouv/pss/endpoint/jwks/1/public",
+    "_prismeUserEndpoint": "http://pss.c1.giin.recouv/pss/endpoint/user-info/1/",
+    "_prismeClientId": "cn=USR_READ_NAT_APP_PORA,OU=PORA,ou=Applications,ou=Technique,dc=recouv",
+    "_prismeClientSecret": "XL93agPeC!72w",
+    "_prismeCodeApp": "PORA",
+    "_prismeScopeFront": "openid *:HARMONIE-WEB",
+    "_prismeScopeBack": "*:DECI *:ENC-BE *:IODA-BE *:WATT2-BE *:OPUS-BE",
+
+    "prismeIss": "https://gateway.urssaf.recouv",
+    "prismeRefreshTokensInterval": 890000,
+    "applicationUri": "localhost:4200",
+    "iFrameRenouvellement": "iframeJobPartBoFe",
+    "pageApresConnexion": "/",
+    "chargerUserInfosFront": true,
+    "chargerUserInfosBack": true,
+    "jetonReadyTopic": "prisme:authentication-request",
+    "jetonMessageTopic": "prisme:set-token",
+    "waitWebMessageURLFragment": "wait_token"
+  }
+}

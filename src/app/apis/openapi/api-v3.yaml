@@ -1,0 +1,800 @@
+openapi: 3.0.1
+info:
+  title: Application Fullstack REST API v3
+  description: >-
+    Application Fullstack exposant des services REST, réalisée dans le cadre
+    d'un groupe de travail du Bureau Technique. 3e version réalisée pour montrer
+    le versioning par API.
+  contact:
+    name: Bureau Technique - Architecture et Expertise Applicative
+    url: >-
+      https://recouv.sharepoint.com/sites/bureautechniquedsi-sded/SitePages/Socle-FullStack.aspx
+  version: '1.0'
+  x-backendArchimed: FULLSTACK-BE
+servers:
+  - url: /fullstack_be/v3
+security:
+  - prismeHeader: []
+tags:
+  - name: Entreprise
+    description: Operations concernant les entreprises
+  - name: Commune
+    description: Operations concernant les communes
+paths:
+  /entreprises:
+    get:
+      tags:
+        - Entreprise
+      summary: Rechercher parmi les entreprises
+      operationId: RechercherEntreprises
+      parameters:
+        - name: denomination
+          in: query
+          description: Denomination de l'entreprise
+          schema:
+            type: string
+        - name: cp
+          in: query
+          description: Code Postal de l'entreprise
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Criteres de tri
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: currentPage
+          in: query
+          description: page courante
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Nombre d'éléments demandés
+          schema:
+            type: integer
+        - name: simple
+          in: query
+          description: >-
+            Indicateur pour ne retourner que les champs simples ou l'objet
+            complet
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Recherche effectuée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntrepriseType'
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recherche
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+    post:
+      tags:
+        - Entreprise
+      summary: Creer une entreprise
+      operationId: CreerEntreprise
+      requestBody:
+        description: Donnees de l'entreprise
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntrepriseType'
+        required: true
+      responses:
+        '201':
+          description: Création effectuée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultatCreationType'
+        '400':
+          description: Erreur fonctionnelle lors de la creation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+      x-codegen-request-body-name: entreprise
+  /entreprises/count:
+    get:
+      tags:
+        - Entreprise
+      summary: Compter le nombre d'entreprises
+      operationId: DenombrerEntreprises
+      responses:
+        '200':
+          description: Dénombrement effectue
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: Nombre d'entreprises'
+                format: int64
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors du dénombrement
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+  /entreprises/{idEntreprise}:
+    get:
+      tags:
+        - Entreprise
+      summary: Recuperer les donnees d'une entreprise par son id
+      operationId: RecupererEntreprise
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: simple
+          in: query
+          description: >-
+            Indicateur pour ne retourner que les champs simples
+            ou la grappe d'objet complète
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Recuperation effectuée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntrepriseType'
+            txt/pdf:
+              schema:
+                $ref: '#/components/schemas/EntrepriseType'
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+        '403':
+          description: Utilisateur non habilite a recuperer les donnees de cette entreprise
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+    put:
+      tags:
+        - Entreprise
+      summary: >-
+        Modifier toutes les données d'une entreprise. Tous les champs sont mis à
+        jour (ie, si le champ adresse est mis à null, l'adresse sera supprimée)
+      operationId: ModifierEntreprise
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: >-
+          Donnees de l'entreprise, doit contenir la date de dernière mise à jour
+          pour gérer la concurrence d'accès
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntrepriseType'
+        required: true
+      responses:
+        '200':
+          description: Mise a jour effectuée
+          content: {}
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+      x-codegen-request-body-name: entreprise
+    delete:
+      tags:
+        - Entreprise
+      summary: Supprimer une entreprise
+      operationId: SupprimerEntreprise
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Suppression effectuée
+          content: {}
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+        '403':
+          description: Utilisateur non habilite a recuperer les donnees de cette entreprise
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+    patch:
+      tags:
+        - Entreprise
+      summary: Modifier certaines donnees d'une entreprise
+      operationId: ModifierPartiellementEntreprise
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: >-
+          Donnees de l'entreprise, doit contenir la date de dernière mise a jour
+          pour gérer la concurrence d'accès
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntrepriseType'
+        required: true
+      responses:
+        '200':
+          description: Mise a jour effectuée
+          content: {}
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+      x-codegen-request-body-name: entreprise
+  /entreprises/{idEntreprise}/adresses:
+    get:
+      tags:
+        - Entreprise
+      summary: Recuperer les adresses d'une entreprise
+      operationId: RechercherAdressesEntreprise
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: cp
+          in: query
+          description: Code Postal de l'adresse
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recuperation effectuée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdresseType'
+            txt/pdf:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdresseType'
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+        '403':
+          description: Utilisateur non habilite a recuperer les donnees de cette entreprise
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+    post:
+      tags:
+        - Entreprise
+      summary: Ajouter une adresse a une entreprise
+      operationId: RajouterAdresseEntreprise
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Donnees de l'adresse
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdresseType'
+        required: true
+      responses:
+        '201':
+          description: Création effectuée
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Identifiant de l'adresse créée
+        '400':
+          description: Erreur fonctionnelle lors de la création
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+      x-codegen-request-body-name: adresse
+  /entreprises/{idEntreprise}/adresses/{idAdresse}:
+    get:
+      tags:
+        - Entreprise
+      summary: Recuperer les donnees d'une adresse
+      operationId: RecupererAdresseEntreprise
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idAdresse
+          in: path
+          description: Identifiant de l'adresse
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Recuperation effectuée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdresseType'
+            txt/pdf:
+              schema:
+                $ref: '#/components/schemas/AdresseType'
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+        '403':
+          description: Utilisateur non habilite a recuperer les donnees de cette entreprise
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+    put:
+      tags:
+        - Entreprise
+      summary: Modifier les donnees d'une adresse
+      operationId: ModifierAdresse
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idAdresse
+          in: path
+          description: Identifiant de l'adresse
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Donnees de l'adresse'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdresseType'
+        required: true
+      responses:
+        '200':
+          description: Mise a jour effectuée
+          content: {}
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+      x-codegen-request-body-name: adresse
+    delete:
+      tags:
+        - Entreprise
+      summary: Supprimer une adresse
+      operationId: SupprimerAdresse
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idAdresse
+          in: path
+          description: Identifiant de l'adresse
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Suppression effectuée
+          content: {}
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+        '403':
+          description: Utilisateur non habilite a recuperer les donnees de cette entreprise
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+    patch:
+      tags:
+        - Entreprise
+      summary: Modifier certaines donnees d'une adresse
+      operationId: ModifierPartiellementAdresse
+      parameters:
+        - name: idEntreprise
+          in: path
+          description: Identifiant de l'entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idAdresse
+          in: path
+          description: Identifiant de l'adresse
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Données de l'adresse
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdresseType'
+        required: true
+      responses:
+        '200':
+          description: Mise a jour effectuée
+          content: {}
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+      x-codegen-request-body-name: adresse
+  /communes:
+    get:
+      tags:
+        - Commune
+      summary: Rechercher parmi les communes avec pagination
+      operationId: RechercherCommunes
+      parameters:
+        - name: sort
+          in: query
+          description: Criteres de tri
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: currentPage
+          in: query
+          description: page courante
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Nombre d'éléments demandés
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Recherche effectuée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommuneType'
+        '400':
+          description: Requête incorrecte ou erreur fonctionnelle lors de la recherche
+          content: {}
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+  /suiviCreationEntrepriseErreurs:
+    get:
+      tags:
+        - SuiviCreationEntrepriseErreurs
+      summary: Lister les erreurs de suivi de création d'entreprise
+      operationId: RecupererSuiviCreationEntrepriseErreurs
+      responses:
+        '200':
+          description: Recherche effectuée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuiviCreationEntrepriseErreurType'
+        '401':
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: '0'
+      x-throttlingBloquant: 'false'
+components:
+  schemas:
+    TimestampMapper:
+      type: object
+      properties:
+        dummy_field:
+          type: object
+          properties: {}
+          description: Au moins un champs doit être présent pour générer la classe
+          example: ''
+    EntrepriseType:
+      type: object
+      properties:
+        dateCreation:
+          type: string
+          description: Date de creation
+          format: date-time
+        dateMaj:
+          $ref: '#/components/schemas/TimestampMapper'
+        utilisateur:
+          type: string
+          description: Dernier utilisateur a avoir mis a jour une table de donnees
+          example: AC750G5000
+        id:
+          type: integer
+          description: Identifiant de l'adresse
+          format: int64
+          example: 1
+        siren:
+          maxLength: 9
+          minLength: 9
+          type: string
+          description: Numéro SIREN de l'entreprise
+          example: '123456789'
+        denomination:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Denomination de l'entreprise
+          example: Mon entreprise
+        activite:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Activite principale de l'entreprise
+          example: Prestations informatiques
+        naf:
+          maxLength: 4
+          minLength: 3
+          type: string
+          description: Code NAF de l'entreprise
+          example: 095A
+        dateFondation:
+          type: string
+          description: Date de fondation
+          format: date
+          example: 2017-01-01T00:00:00.000Z
+        activerSuivi:
+          type: boolean
+          description: True si la création de l'entreprise nécessite un suivi particulier
+        adresses:
+          type: array
+          description: Adresses de l'entreprise
+          items:
+            $ref: '#/components/schemas/AdresseType'
+        attestations:
+          type: array
+          description: Attestations de l'entreprise
+          items:
+            $ref: '#/components/schemas/AttestationType'
+    AdresseType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de l'adresse
+          format: int64
+          example: 1
+        dateMaj:
+          $ref: '#/components/schemas/TimestampMapper'
+        utilisateur:
+          type: string
+          description: Dernier utilisateur a avoir mis a jour une table de donnees
+          example: AC750G5000
+        ligne1:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Premiere ligne de l'adresse
+          example: Immeuble le president
+        ligne2:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Seconde ligne de l'adresse
+          example: 36 rue de Valmy
+        commune:
+          $ref: '#/components/schemas/CommuneType'
+    CommuneType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de la commune
+          format: int64
+          example: 1
+        cp:
+          maxLength: 5
+          minLength: 5
+          type: string
+          description: Code Postal
+          example: '93108'
+        nom:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Nom
+          example: Montreuil
+    AttestationType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de l'adresse
+          format: int64
+          example: 1
+        dateMaj:
+          $ref: '#/components/schemas/TimestampMapper'
+        utilisateur:
+          type: string
+          description: Dernier utilisateur a avoir mis a jour une table de donnees
+          example: AC750G5000
+        nom:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: nom du fichier importé
+    ResultatCreationType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de l'objet cree'
+          format: int64
+          example: 1
+    SuiviCreationEntrepriseErreurType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de l'erreur
+          format: int64
+          example: 1
+        dateCreation:
+          type: string
+          description: Date de creation
+          format: date-time
+        exceptionMessage:
+          type: string
+          description: Le message d'erreur
+        activite:
+          type: string
+          description: l'activité de l'entreprise
+        denomination:
+          type: string
+          description: la dénomination de l'entreprise
+        siren:
+          type: string
+          description: le siren de l'entreprise
+    ErreurType:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code de l'erreur
+          example: ENTR_INEXISTANTE
+        message:
+          type: string
+          description: Message de l'erreur
+          example: Entreprise Inexistante
+        description:
+          type: string
+          description: Description de l'erreur
+          example: Entreprise inexistante
+
+
+  securitySchemes:
+    prismeHeader:
+      type: apiKey
+      name: Authorization
+      in: header

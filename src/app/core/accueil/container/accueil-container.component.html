@@ -1,0 +1,57 @@
+<h2>Accueil</h2>
+
+<div class="onglet-margin">
+  <app-onglet [type]="ongletTypeEnum.PREMIER_NIVEAU" [(active)]="active">
+
+    <!-- Header de l'onglet -->
+    <app-onglet-header-container *ngFor="let onglet of onglets; index as index">
+      <app-onglet-header [tab]="onglet" [type]="ongletTypeEnum.PREMIER_NIVEAU"></app-onglet-header>
+    </app-onglet-header-container>
+
+    <!-- Contenu de l'onglet -->
+    <div *ngIf="active === 0">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="bloc-exemple">
+            <h3>Présentation</h3>
+            <p>Fullstack est une application exemple qui permet de mettre en exergue les différents attendus d’une application au sein de l’Urssaf Caisse Nationale.</p>
+            <div>
+              Cette application contient un ensemble d’exemples permettant au développeur d’avoir une base de développement fiable dans l’écosystème de la DSI.
+              Elle contient différents composants (SPA-Intranet et backend). L'IHM intranet SPA basée sur Angular et Bootstrap propose notamment :
+              <ul>
+                <li>Le respect des chartes graphique et ergonomique</li>
+                <li>Une implémentation de services REST OpenAPI</li>
+                <li>Une implémentation de la sécurisation Prisme</li>
+                <li>La communication inter IHM avec Com-SPA</li>
+                <li>Des exemples de tableaux Aggrid</li>
+              </ul>
+            </div>
+            <p>Fullstack se déploie sur les 3 plateformes principales : HAWAI, SX et PFS. Vous y trouverez donc des exemples de jenkinsFile pour chacune de ces plateformes.</p>
+            <p>Cette application est maintenue par l’équipe SDAT > ACT (anciennement BT-AEA), qui l’utilise au quotidien pour s’assurer que les évolutions du SI soient compatibles et cohérentes avec le reste de l’écosystème.</p>
+            <div>Le code source est ouvert. N’hésitez pas à nous faire part d’anomalies ou nous partager d’éventuelles évolutions. Vous trouverez un ensemble de liens vers les différents Git, ReadtheDoc, ou notre mail de contact sur les différents onglets de cette page d’accueil.</div>
+          </div>
+        </div>
+      </div>
+      <app-documentation></app-documentation>
+    </div>
+    <div *ngIf="active === 1">
+      <app-lien></app-lien>
+    </div>
+    <div *ngIf="active === 2">
+      <app-memo-technique></app-memo-technique>
+    </div>
+    <div *ngIf="active === 3">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="bloc-exemple">
+            <h3>Contact</h3>
+            <div>Mail de l'équipe :
+              <a href="mailto: ac750-dsi-sded-bt-aea@acoss.fr">ac750-dsi-sded-bt-aea@acoss.fr</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-onglet>
+</div>
+

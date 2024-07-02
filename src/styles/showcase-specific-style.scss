@@ -1,0 +1,30 @@
+/* Code pour centrer la main-icon en utilisant les padding et margin (alias marge interieur et exterieur) */
+.main-icon {
+  width: calc(100% - 0.929rem); // 13px, 8 + 5 margin
+  margin: 0.786rem 0.571rem 0.714rem 0.357rem;// 11px 8px 10px 5px;
+}
+
+legend {
+  font-size: 1.143rem; // 16px
+}
+
+.onglet-margin {
+  margin-left: -1.5rem; // -21px
+  margin-right: -1.5rem; // -21px
+}
+
+app-menu-vertical-sample .onglet-margin {
+  margin-right: -1.214rem; // -17px
+}
+
+.error-form-icon {
+  margin-right: 1rem; // 14px
+  margin-top: 0.357rem; // 5px
+}
+
+// Pour la démonstration REM
+app-nav app-menu-vertical {
+  .menu-container, .menu-custom {
+    width: 100% !important;
+  }
+}

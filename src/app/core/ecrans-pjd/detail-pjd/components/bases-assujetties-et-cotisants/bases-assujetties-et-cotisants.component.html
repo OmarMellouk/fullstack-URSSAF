@@ -1,0 +1,46 @@
+<app-zone-information>
+  <ng-container header>
+    <h2>Bases assujetties et cotisants</h2>
+  </ng-container>
+
+  <ng-container body>
+    <div class="row mb-2">
+      <div class="col-4 pe-0">
+        <app-label-valeur [label]="'Montant déclaré'" [valeur]="'39 322 €'" [labelWidth]="119"></app-label-valeur>
+        <app-label-valeur [label]="'Montant calculé'" [valeur]="'44 640 €'" [labelWidth]="119"></app-label-valeur>
+      </div>
+      <div class="col-4 p-0">
+        <app-label-valeur [label]="'Différence sur la déclaration'" [valeur]="'- 5 318 €'" [labelWidth]="185" [labelColumns]="6" [inputColumns]="6"></app-label-valeur>
+      </div>
+      <div class="col-4 ps-0">
+        <app-label-valeur [label]="'Total des pénalités'" [valeur]="'-'" [labelWidth]="130"></app-label-valeur>
+      </div>
+    </div>
+
+    <app-zone-pliable-depliable (isOpened)="isOpened($event)">
+      <ng-container header>
+        <h3 class="my-auto">Activité 1 - 6157066</h3>
+        <div class="default-font d-flex">
+          <div class="d-flex mx-5">
+            <label class="my-auto me-2">Siret</label>
+            <div class="label-valeur my-auto"><a href="" [routerLink]="[]">402 461 636 00021</a></div>
+          </div>
+
+          <div class="d-flex mx-5">
+            <label class="my-auto me-2">Date de début de période</label>
+            <div class="label-valeur my-auto">13/12/2015</div>
+          </div>
+
+          <div class="d-flex ms-5">
+            <label class="my-auto me-2">Date de fin de période</label>
+            <div class="label-valeur my-auto">31/12/2015</div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container body>
+        <app-tableau-detail *ngIf="opened"></app-tableau-detail>
+      </ng-container>
+    </app-zone-pliable-depliable>
+
+  </ng-container>
+</app-zone-information>

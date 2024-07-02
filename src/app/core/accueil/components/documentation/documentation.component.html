@@ -1,0 +1,25 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="bloc-exemple">
+      <h3>Documentation (read the doc)</h3>
+      <form>
+        <div class="row">
+          <div class="col-10">
+            <div *ngFor="let projet of projets">
+              <div class="form row" *ngIf="form">
+                <label for="input" class="col-2 col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidth + 'px'}">
+                  <a href="{{projet.url}}">{{projet.name}}</a>
+                </label>
+                <div class="col-3 pe-0">
+                  <input id="{{projet.name}}" name="sujet{{projet.name}}" type="text" class="form-control" #sujet>
+                </div>
+                <button type="button" class="btn btn-outline-secondary" id="bouton-submit-{{projet.name}}" (click)="rechercheDoc(sujet.value,sujet.id)">Rechercher</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

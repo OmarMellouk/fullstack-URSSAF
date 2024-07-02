@@ -1,0 +1,19 @@
+{
+    "config_version": "1.0.6",
+    "client_id": "FUST",
+    "type": "FRONTEND_INT",
+    "redirect_uri": [
+        "@@fullstack.host@@/fullstack_fe/retour_pss",
+        "@@fullstack.hostpfs@@/retour_pss",
+        "@@fullstack.hostpfscg@@/retour_pss",
+        "@@fullstack.hostpfsdev01@@/retour_pss",
+        "@@fullstack.hostpfsdev02@@/retour_pss",
+        "@@fullstack.hostpfspicmain@@/retour_pss",
+        "@@fullstack.hostpfspicmr@@/retour_pss",
+        "@@fullstack.hostpfslatestrelease@@/retour_pss",
+        "@@fullstack.hostpfskafkadev01@@/retour_pss",
+        "@@fullstack.hostpfskafkadev02@@/retour_pss",
+        "@@fullstack.hostpfskafkadev03@@/retour_pss",
+        "@@fullstack.hostpfskafkadev04@@/retour_pss"
+    ]
+}

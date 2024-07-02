@@ -1,0 +1,21 @@
+<form [formGroup]="form">
+  <div class="form-check">
+    <input type="radio" id="radio1" class="form-check-input" [value]="true" formControlName="radio">
+    <label class="form-check-label" for="radio1">Label bouton radio</label>
+  </div>
+
+  <div class="form-check">
+    <input type="radio" id="radio2" class="form-check-input" [value]="false" formControlName="radio">
+    <label class="form-check-label" for="radio2">Label bouton radio</label>
+  </div>
+
+  <div class="form-check mt-2">
+    <input type="radio" id="radio3" class="form-check-input" [value]="true" formControlName="radioDisabled">
+    <label class="form-check-label" for="radio3">Label bouton radio</label>
+  </div>
+
+  <div class="form-check">
+    <input type="radio" id="radio4" class="form-check-input" [value]="false" formControlName="radioDisabled">
+    <label class="form-check-label" for="radio4">Label bouton radio</label>
+  </div>
+</form>

@@ -1,0 +1,53 @@
+<button  class="btn btn-primary" (click)="open(popup)">Ouvrir popup avec formulaire</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [isFormValid]="form.valid"
+    [title]="'Ajout d\'un chèque impayé'"
+    [firstButton]="{label: 'Confirmer ajout', icone: 'icon-b_valid'}"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <form [formGroup]="form">
+      <div class="form d-flex">
+        <label for="reference1" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Référence du chèque *</label>
+        <app-champ-de-saisie-seul [form]="form.get('reference1')" [index]="1" class="w-25 me-1" [placeholder]="'N° chèque'"></app-champ-de-saisie-seul>
+        <app-champ-de-saisie-seul [form]="form.get('reference2')" [index]="2" class="w-25 me-1" [placeholder]="'ZIB'"></app-champ-de-saisie-seul>
+        <app-champ-de-saisie-seul [form]="form.get('reference3')" [index]="3" class="w-25" [placeholder]="'ZIN'"></app-champ-de-saisie-seul>
+      </div>
+      <div class="form d-flex">
+        <label for="montant" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Montant *</label>
+        <app-champ-de-saisie-seul [form]="form.get('montant')" [index]="4" [unit]="'€'" class="w-25"></app-champ-de-saisie-seul>
+      </div>
+      <div class="form d-flex">
+        <label for="dateImpaye" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Date de l'impayé *</label>
+        <app-date-picker [currentDate]="form.get('dateImpaye')" [spaceForControl]="true" class="w-25"></app-date-picker>
+      </div>
+      <div class="form d-flex">
+        <label for="numCompte" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">N° de compte SNV2 *</label>
+        <app-champ-de-saisie-seul [form]="form.get('numCompte')" [index]="6" class="w-25"></app-champ-de-saisie-seul>
+      </div>
+      <div class="form d-flex">
+        <label for="compteRemise" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Compte de remise *</label>
+        <app-champ-de-saisie-seul [form]="form.get('compteRemise')" [index]="7" class="w-25"></app-champ-de-saisie-seul>
+      </div>
+      <div class="form d-flex">
+        <label for="motif" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Motif rejet chèque *</label>
+        <app-champ-de-saisie-seul [form]="form.get('motif')" [index]="8" class="w-100"></app-champ-de-saisie-seul>
+      </div>
+      <div class="form d-flex">
+        <label for="statut" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Dernier statut *</label>
+        <app-champ-de-saisie-seul [form]="form.get('statut')" [index]="9" class="w-25"></app-champ-de-saisie-seul>
+      </div>
+      <div class="form d-flex">
+        <label for="dateStatut" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Date du statut *</label>
+        <app-date-picker [currentDate]="form.get('dateImpaye')" [spaceForControl]="true" class="w-25"></app-date-picker>
+      </div>
+      <div class="form d-flex">
+        <label for="commentaire" class="col-form-label col-form-label-fix ps-0" [ngStyle]="{'width': labelWidth + 'em'}">Commentaire *</label>
+        <app-champ-de-saisie-multiligne-seul [form]="form.get('commentaire')" [index]="11" class="w-100"></app-champ-de-saisie-multiligne-seul>
+      </div>
+    </form>
+  </app-popup>
+</ng-template>

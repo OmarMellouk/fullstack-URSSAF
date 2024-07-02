@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-3 mt-3 py-2 d-flex" *ngFor="let icon of icons" [ngClass]="{'bg-white-icon': icon.addBg}">
+    <i class="{{icon.name}}" aria-hidden="true">
+      <span *ngFor="let path of [].constructor(icon.paths); let i = index" class="path{{i+1}}"></span>
+    </i>
+    <div class="my-auto ms-3">
+      <div class="">{{icon.name}}</div>
+      <div *ngIf="icon.paths" class="mt-1 fst-italic">Icône découpée en {{icon.paths}} paths</div>
+    </div>
+  </div>
+</div>

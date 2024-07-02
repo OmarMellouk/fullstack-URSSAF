@@ -1,0 +1,16 @@
+<button  class="btn btn-primary" (click)="open(popup)">Ouvrir popup d'erreur</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Export au format excel - Erreur système'"
+    [iconToDisplay]="'assets/icones-showcase/m_error.svg'"
+    [firstButton]="{label: 'Fermer', icone: 'icon-b_close'}"
+    [secondButton]="null"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <p>L'export du tableau au format excel à échoué.</p>
+    <div>Veuillez réessayer ultérieurement.</div>
+  </app-popup>
+</ng-template>

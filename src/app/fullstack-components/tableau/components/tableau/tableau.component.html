@@ -1,0 +1,56 @@
+<div class="mb-2" *ngIf="!!asynchronousErrors$">
+  <app-note-statique [category]="toastCategoryEnum.ERROR"></app-note-statique>
+</div>
+
+<div class="d-flex mb-2" *ngIf="enableAddButton || displayDeleteSelectedButton || enableFullEdit || displayColumnsConfiguration">
+  <div *ngIf="!isEditing" class="d-flex ms-auto">
+    <button *ngIf="enableAddButton" type="button" class="btn btn-secondary" (click)="addRow()">
+      Ajouter
+    </button>
+    <button *ngIf="displayDeleteSelectedButton" type="button" class="btn btn-secondary ms-2" [disabled]="!enableDeleteButton" (click)="deleteAllSelected()">
+      Supprimer en masse
+    </button>
+    <button *ngIf="enableFullEdit" type="button" class="btn btn-secondary ms-2" (click)="startEditing()">
+      Démarrer édition
+    </button>
+
+    <div *ngIf="displayColumnsConfiguration && (enableAddButton || displayDeleteSelectedButton || enableFullEdit)" class="button-splitter"></div>
+    <button *ngIf="displayColumnsConfiguration" type="button" class="btn btn-outline-secondary" (click)="configureColumns()">
+      Configurer colonnes
+    </button>
+  </div>
+
+  <div class="button-group ms-auto tableau-edit-buttons" *ngIf="isEditing">
+    <button type="button" class="btn btn-outline-primary" (click)="saveOrCancelEdition(true)">
+      <i class="icon-b_cancel" aria-hidden="true"></i><span>Annuler</span>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="saveOrCancelEdition()" [disabled]="disableSaveForAsyncErrors">
+      <i class="icon-b_valid" aria-hidden="true"></i><span>Enregistrer</span>
+    </button>
+  </div>
+</div>
+
+<ag-grid-angular
+  #agGrid
+  id="{{uniqueUiID}}"
+  class="ag-theme-alpine"
+  [gridOptions]="gridOptions"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  (gridReady)="onGridReady($event)"
+  [overlayNoRowsTemplate] = "overlayNoRowsTemplate">
+</ag-grid-angular>
+
+<!-- RÉTROCOMPATIBILITÉ : Ajouter la classe has-total-row -->
+<app-pagination *ngIf="pagination" [agGrid]="agGrid" [ngClass]="{'has-total-row' : !!total}" [defaultNbreLignes]="defaultNbreLignes"></app-pagination>
+
+<div class="d-flex mt-2" *ngIf="isEditing">
+  <div class="button-group ms-auto">
+    <button type="button" class="btn btn-outline-primary" (click)="saveOrCancelEdition(true)">
+      <i class="icon-b_cancel" aria-hidden="true"></i><span>Annuler</span>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="saveOrCancelEdition()" [disabled]="disableSaveForAsyncErrors">
+      <i class="icon-b_valid" aria-hidden="true"></i><span>Enregistrer</span>
+    </button>
+  </div>  
+</div>

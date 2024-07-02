@@ -1,0 +1,5 @@
+<div class="row">
+  <div class="col-3 mt-3 py-2 d-flex" *ngFor="let icon of projectGaIcons" [ngClass]="{'bg-white-icon': icon.addBg}">
+    <svg-icon [src]="icon.url" [svgStyle]="{ 'width.em':2.462, 'height.em':2.462}"></svg-icon><span class="my-auto ms-3">{{icon.url}}</span>
+  </div>
+</div>

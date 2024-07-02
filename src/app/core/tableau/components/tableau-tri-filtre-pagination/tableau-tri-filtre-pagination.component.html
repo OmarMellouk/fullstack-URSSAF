@@ -1,0 +1,9 @@
+<app-tableau
+  [gridOptions]="gridOptions"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [overlayNoRowsTemplate] = "overlayNoRowsTemplate"
+  [pagination]="true"
+  [total]="{labelId: 'compte', valuesId: ['produit']}"
+  (gridReady)="onGridReady($event)"
+></app-tableau>

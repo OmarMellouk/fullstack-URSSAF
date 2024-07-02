@@ -1,0 +1,286 @@
+#!groovy
+
+/**
+* Configuration du build de l'application fullstack-spa-intranet.
+* Quelques petits éléments à comprendre/savoir :
+*    - Le numéro de version n'est pas porté par la version dans le package.json mais par le nom de la branche
+*      - Le numéro de version dans le package.json est automatiquement mis à jour par le build
+*    - Les branches sans "numero" (feature / develop) portent un numero fictif (1.0.0-...)
+* Le build repose sur deux éléments :
+*   - Git défini directement sur les machines jenkins
+*   -fedex,sonar, maven npm ... qui sont définis dans une image docker.
+*  /!\ Toutes les commandes git sont donc lancées à l'exterieur de l'image docker
+*    En début de build on définit un ensemble de variables qui permettent de simplifier la configuration des steps suivants
+*   - Il est OBLIGATOIRE de modifier ces variables pour votre projet !
+* Il faut penser à ajouter l'utilisateur jenkins dans les membres de votre projet git
+* Pour faire fonctionner le plugin hawai, il faut avoir un fichier hawai.properties dans votre projet, qui contient les même clés/valeurs
+*  que la partie <configuration> du plugin maven
+*
+* Les étapes principales du build sur master sont :
+*    - Récupération du numéro de version depuis le nom de la branche et mise à jour dans le package.json (agent node-npm du stage Npm Tasks)
+* - Compilation du projet (agent node-npm du stage Npm Tasks)
+* - Lancement de l'analyse sonar et passage du build en erreur / instable en fonction de l'analyse sonar (agent node-npm du stage Npm Tasks)
+* - Déploiement sur le repo NPM
+* - Déploiement sur le repo MAVEN release (nécessaire au plugin hawai)
+* - Déploiement sous fedex
+* - git push des modifications de versions (attention : agent docker déclaré en début de pipeline)
+* - git tag
+*/
+
+@Library('fedex_shared_libs') _
+
+pipeline {
+  // Agent Jenkins utilisé par défaut
+  agent { label 'docker'}
+
+  // Définition de variables qui sont utilisé dans le build --> A REDEFINIR POUR VOTRE PROJET
+  environment {
+    HOME = '.'
+    //Le project Key est utilisé comme clé sous sonar, comme nom du package nom ou encore comme artifactId sous le nexus maven
+    PROJECT_KEY = 'fullstack-spa-intranet'
+    NOM_TARGET_HAWAI='fullstack_fe'
+    //Le project group est utilisé comme groupId sous le nexus maven
+    PROJECT_GROUP= 'fr.urssaf.bt.aea'
+
+    // Registry docker ou sera publiée l'image créée
+    DOCKER_REGISTRY = "harbor.mutual31.k8s.recouv"
+  }
+  parameters {
+    booleanParam(name: 'BUILD_PFS_IMAGE', defaultValue: false, description: 'PFS : Constuction de l\'image Docker PFS')
+  }
+  triggers {
+    // Lancement automatique du build sur la branche develop tous les jours à 06h00
+    cron(env.BRANCH_NAME == 'develop' ? '''00 06 * * *''' : "")
+  }
+  stages {
+
+    // Dans notre workflow, la version n'est pas portée par le package.json mais par le nom de la branche
+    // Ce stage met donc à jour la version dans les package.json en fonction du nom de la branche
+    // Ces modifications sont poussées sous GIT
+    //Ce stage permet de mettre jour les variables en fonction de la branche sur laquelle est lancée le job
+     // Dans notre workflow, la version n'est pas portée par le package.json mais par le nom de la branche
+    // Ce stage met donc à jour la version dans les package.json en fonction du nom de la branche
+    // Ces modifications sont poussées sous GIT
+    //Ce stage permet de mettre jour les variables en fonction de la branche sur laquelle est lancée le job
+    stage('Set parametres') { steps{ script {
+      docker.image('node:16.16.0').inside { // Nécessaire pour le calcul de la version lors d'une release sur master
+        //Les variables mises à jour dans ce build sont :
+        // VERSION = version du projet
+        // NPM_OPTION = option npm pour permettre de publier plusieurs fois la meme version (pour les versions de développement uniquement)
+        // MAVEN_REPOSITORY = permet de définir le repository nexus (maven) ou seront déposé les livrables
+        if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('feature/') || env.BRANCH_NAME.startsWith('hotfix/') ) {
+          // En Feature, develop ou hotfix on met un numero fictif (1.0.0) suivi d'un snapshot
+          VERSION = "1.0.0-${GIT_BRANCH.replaceAll('/', '-').replaceAll('origin-', '')}-" + "${env.BUILD_NUMBER}" + "-SNAPSHOT"
+          NPM_OPTION = "--allow-same-version"
+          MAVEN_REPOSITORY="maven-snapshots"
+          BRANCHE_HAWAI = "develop"
+        } else if (env.BRANCH_NAME.startsWith('release/') ) {
+          // En release on met des RC + nombre de commit sur la branche suivi d'un snapshot
+          VERSION = "${GIT_BRANCH.replaceAll('/','-').replaceAll('origin-','').replaceAll('release-','').replaceAll('_','')}" + '-RC-' + "${env.BUILD_NUMBER}"
+          NPM_OPTION = ""
+          MAVEN_REPOSITORY="maven-releases"
+          BRANCHE_HAWAI = "develop"
+        } else if (env.BRANCH_NAME == 'master') {
+          //Sur master,on enlève la partie RC-XXX-SNAPSHOT pour avoir le numéro de version.
+          CURRENT_VERSION = sh(script: 'node -e "console.log(require(\'./package.json\').version);"', returnStdout: true)
+          VERSION = "${CURRENT_VERSION.trim().split('-')[0]}"
+          NPM_OPTION = ""
+          MAVEN_REPOSITORY="maven-releases"
+          BRANCHE_HAWAI = "" // Doit rester vide pour fonctionner avec le plugin hawai
+        } else {
+          echo 'ERREUR  : Nomenclature de branche inconnue'
+        }
+
+        // Les élements suivants sont utilisés pour les PIC de dev et d'intégration et doivent être supprimé si vous travaillez uniquement sur le git de production
+        if (env.JENKINS_URL == 'https://jenkinsint.cer31.recouv/' || env.JENKINS_URL == 'http://jenkinsint.cer31.recouv/') {
+          BRANCHE_HAWAI = "picint"
+        }
+        if (env.JENKINS_URL == 'https://jenkinsdev.cer31.recouv/') {
+          BRANCHE_HAWAI = "picdev"
+        }
+      }
+    }}}
+
+    stage('npm set version') { steps { script {
+      docker.image('node:16.16.0').inside {
+        // on met à jour la version dans le package.json et le package-lock.json
+        withCredentials([string(credentialsId: 'NPM_PUBLISH_TOKEN', variable: 'NPM_CONFIG__AUTH')]) {
+          // no-git-tag-version permet de ne pas commiter la nouvelle version et ne pas créer de tag
+          // Les mises à jour dans Git seront effectuées dans les étapes suivantes si le build est correct
+          sh "npm --no-git-tag-version version ${VERSION} ${NPM_OPTION}"
+        }
+        // Le stash est nécessaire pour l'étape de git push version (on sauvegarde les fichiers que l'on vient de modifier).
+        stash includes: '*', name: 'wkspace'
+      }
+    }}}
+
+    // Compilation
+    stage('npm install') { steps { script {
+      docker.image('node:16.16.0').inside {
+        withNPM(npmrcConfig: 'npmrc') {
+          sh 'npm install'
+        }
+      }
+    }}}
+
+    // Vérification via le linter
+    stage('Lint') { steps { script {
+      docker.image('node:16.16.0').inside {
+        sh 'npm run lint'
+      }
+    }}}
+
+    // Exécution des tests
+    stage('Tests') { steps { script {
+      docker.image('zenika/alpine-chrome:with-playwright').inside('--entrypoint "" --cap-add=SYS_ADMIN') {
+        sh 'npm run test-ci'
+        junit 'reports/*.xml'
+      }
+    }}}
+
+    // On lance l'analyse du code par SonarQube
+    stage('Analyse Sonarqube') { steps { script {
+      docker.image('sonarsource/sonar-scanner-cli').inside {
+        withSonarQubeEnv('Sonarqube HORS-COBOL') {
+          // Voir le fichier sonar-project.properties pour la configuration complète de l'analyse Sonar
+          sh "sonar-scanner -Dsonar.projectVersion=${VERSION} -Dsonar.branch.name=${GIT_BRANCH.replaceAll('origin/', '')}"
+        }
+      }
+    }}}
+
+    // Cette étape permet de vérifier si le code passe la barrière qualité de SonarQube
+    stage("Vérification Quality Gate Sonar") {
+      steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+          timeout(time: 2, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true
+          }
+        }
+      }
+    }
+
+    // Build du projet pour l'environement de production (ou équivalent). On build un tar.gz qui sera utilisé plus tard pour le deploiement sous le nexus "maven"
+    stage('Compile version production') { steps { script {
+      docker.image('node:16.16.0').inside {
+        sh 'npm run build-prod-targz-pfs'
+      }
+    }}}
+
+    // Publication sous nexus NPM
+    stage('Publish nexus NPM') { steps { script {
+      docker.image('node:16.16.0').inside {
+        withCredentials([string(credentialsId: 'NPM_PUBLISH_TOKEN', variable: 'NPM_CONFIG__AUTH')]) {
+          withEnv(['npm_config_email="indus@acoss.fr"']) {
+            sh 'npm run publish-dist-pfs'
+          }
+        }
+        stash includes: "**/*.tar.gz", name: "targz"
+      }
+    }}}
+
+    // Publication sous nexus
+    // Permet de sauvegarder et necessaire ensuite pour récupérer les configs file à la construction du Chart PFS
+    stage('Publish NEXUS') {
+      when {
+        anyOf{
+          expression { BUILD_PFS_IMAGE }
+          branch 'master'
+        }
+      }
+      steps {
+        script {
+          unstash "targz"
+          docker.image('maven:3.6.3-openjdk-11-slim').inside {
+            configFileProvider([configFile(fileId: 'Global_Maven_Settings', variable: 'MAVEN_SETTINGS_XML')]) {
+              sh "mvn -s $MAVEN_SETTINGS_XML deploy:deploy-file -DgroupId=${PROJECT_GROUP} -DartifactId=${PROJECT_KEY} -Dversion=${VERSION} -Dpackaging=tar.gz -Dfile=./dist/${NOM_TARGET_HAWAI}.tar.gz -Durl=http://${NEXUS_HOSTNAME}/repository/${MAVEN_REPOSITORY}/ -DrepositoryId=${MAVEN_REPOSITORY}"
+            }
+          }
+        }
+      }
+    }
+
+    stage('Construction et publication de l image Docker') {
+            when {
+                anyOf {
+                    expression { params.BUILD_PFS_IMAGE }
+                    branch 'master'
+                }
+            }
+            environment { GIT_AUTH = credentials('GITLAB_ID') }
+            steps {
+                // Exécution du script de création de l'image Docker voir Dockerfile
+                script {
+                    // Déclaration des variables utilisées dans ce step
+                    nexusSrcArtifactGroup = PROJECT_GROUP
+                    // Groupe de l'artifact source
+                    nexusSrcArtifactName = PROJECT_KEY
+                    // Nom de l'artifact source
+                    dockerImageName = PROJECT_KEY
+                    // Le nom de l'image docker à construire
+                    // remoteImagePath = PROJECT_GROUP.replaceAll("\\.", "/")
+                    // = namespace projet
+                    remoteImagePath = "fullstack"
+                    // Par defaut on place l'image dans le path correspondant au groupe (ex : fr.urssaf.bt.aea = fr/urssaf/bt/aea)
+                    remoteImageName = "${DOCKER_REGISTRY}/${remoteImagePath}/${dockerImageName}"
+                    // Nom complet (fully-qualified) de l'image à publier (remote)
+
+                    // Récupération du jar via recherche nexus (usage de WebService Rest
+                    //sh "curl -L -o docker/PFS/${nexusSrcArtifactName}-${VERSION}.tar.gz '${NEXUS_URL}/service/rest/v1/search/assets/download?sort=version&maven.groupId=${nexusSrcArtifactGroup}&maven.artifactId=${nexusSrcArtifactName}&maven.baseVersion=${VERSION}&maven.extension=tar.gz'"
+                    // TODO : tekecharger et detarer
+
+                    // Generation de l'image docker
+                    currentBuild.displayName = "Image ${VERSION} on ${remoteImageName}"
+                    customImage = docker.build("${remoteImageName}:${VERSION}", "-f docker/PFS/Dockerfile --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} .")
+
+                    // Push sur le registry défini en
+                    docker.withRegistry('http://' + DOCKER_REGISTRY, 'HARBOR_ROBOT') {
+                        customImage.push("${VERSION}")
+                        customImage.push("latest")
+                    }
+                }
+
+            }
+        }
+
+    // Commit et push des fichiers package.json contenant les modifications de version
+    // Attention ici on utilise l'agent docker (délaré en début de pipeline)
+    stage ('Git push version') {
+      environment {
+        GIT_AUTH = credentials('GITLAB_ID')
+      }
+      steps {
+        unstash 'wkspace' // permet de récupérer les changements de version sur les fichier package.json
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { //Si la version est déjà a jour alors on ignore l'erreur
+          sh "git ls-files . | grep package | xargs git add"
+          sh "git commit -m \"mise à jour de version\""
+          sh 'git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"'
+          sh "git push origin HEAD:${GIT_BRANCH.replaceAll('origin/','')}"
+        }
+      }
+    }
+
+    // Création et publication d'un tag uniquement si on est sur la branche master
+    // Attention ici on utilise l'agent docker (déclaré en début de pipeline)
+    stage ('Git tag version') {
+      when {
+        branch 'master'
+      }
+      environment {
+        GIT_AUTH = credentials('GITLAB_ID')
+      }
+      steps {
+        sh "git tag ${VERSION} -m \"release v${VERSION} \""
+        sh 'git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"'
+        sh "git push origin HEAD:${GIT_BRANCH.replaceAll('origin/','')} ${VERSION}"
+      }
+    }
+  }
+
+  post {
+    failure {
+      mail to: 'ac750-dsi-sded-bt-aea@acoss.fr',
+        subject: "Jenkins build failure : ${currentBuild.fullDisplayName}",
+        body: " Log du build en erreur :  ${env.BUILD_URL}"
+    }
+  }
+}

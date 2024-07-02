@@ -1,0 +1,19 @@
+<button  class="btn btn-primary" (click)="open(popup)">Ouvrir popup à 3 boutons</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Modification de coordonnée bancaire'"
+    [iconToDisplay]="'assets/icones-showcase/m_warning.svg'"
+    [firstButton]="{label: 'Enregistrer et quitter', icone: 'icon-b_valid'}"
+    [secondButton]="{label: 'Quitter sans enregistrer', icone: 'icon-b_close'}"
+    [thirdButton]="{label: 'Reprendre', icone: 'icon-b_cancel'}"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <div>
+      Vous êtes sur le point de quitter la modification de coordonnée bancaire.<br />
+      Si vous n'enregistrez pas, les modifications seront perdues.
+    </div>
+  </app-popup>
+</ng-template>

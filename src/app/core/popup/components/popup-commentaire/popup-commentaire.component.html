@@ -1,0 +1,24 @@
+<button  class="btn btn-primary" (click)="open(popup)">Ouvrir popup avec commentaire</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [isFormValid]="form.valid"
+    [title]="'Suppression d\'un fichier'"
+    [iconToDisplay]="'assets/icones-showcase/m_warning.svg'"
+    [firstButton]="{label: 'Confirmer suppression', icone: 'icon-b_valid'}"
+    [secondButton]="{label: 'Abandonner', icone: 'icon-b_cancel'}"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <p>
+      Vous êtes sur le point de supprimer le fichier :<br />
+      <strong>RD27_B06_1711152040_547.xml</strong> de la liste des flux rejetés. <br />
+      Vous devez confirmer le suppression en saisissant un commentaire obligatoire.
+    </p>
+
+    <form [formGroup]="form">
+      <textarea class="form-control w-100" rows="4" id="textarea" placeholder="Commentaire (obligatoire)" [formControl]="form.get('commentaire')"></textarea>
+    </form>
+  </app-popup>
+</ng-template>

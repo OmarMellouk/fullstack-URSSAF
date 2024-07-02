@@ -1,0 +1,16 @@
+<app-onglet [type]="ongletTypeEnum.DEUXIEME_NIVEAU" [(active)]="active">
+
+  <!-- Header de l'onglet -->
+  <app-onglet-header-container *ngFor="let onglet of onglets; index as index">
+    <app-onglet-header [tab]="onglet" [type]="ongletTypeEnum.DEUXIEME_NIVEAU"></app-onglet-header>
+  </app-onglet-header-container>
+
+  <!-- Contenu de l'onglet -->
+  <div *ngIf="active === 0 || active === 1 || active === 2">
+    Quisque eget ante sed leo aliquet volutpat ac vel lectus. Phasellus congue, urna ut mattis pharetra, est magna auctor sem,
+    vitae dignissim tortor lacus sit amet libero. Sed et tempor leo. Quisque ullamcorper lorem sit amet vulputate convallis.
+    Sed ullamcorper aliquam massa, quis lacinia mi sollicitudin quis. Ut elementum odio ante. Nullam vitae ipsum lobortis,
+    imperdiet tortor id, rutrum mi. Maecenas lacinia, ligula vel dictum scelerisque, neque turpis finibus purus, vel placerat
+    dui dui et mi. Duis molestie arcu sit amet nisl faucibus molestie ac et dolor.
+  </div>
+</app-onglet>

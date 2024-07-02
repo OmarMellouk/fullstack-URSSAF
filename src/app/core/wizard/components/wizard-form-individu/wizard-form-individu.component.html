@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-5">
+    <app-champ-de-saisie [label]="'NIR *'" [index]="0" [form]="formIndividu.get('nir')" [labelWidth]="labelWidthIndividu" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>
+    <div class="form row">
+      <label class="col-4 col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidthIndividu + 'px'}">Date de naissance *</label>
+      <div class="col-6">
+        <app-date-picker [currentDate]="formIndividu.get('dateDeNaissance')" [customErrorMessage]="errorMessage" [isError]="formIndividu.get('dateDeNaissance').invalid && formIndividu.get('dateDeNaissance').touched"></app-date-picker>
+      </div>
+    </div>
+
+    <app-boutons-radio-label [label]="'Civilité *'" [radioLabelList]="radioLabelList" [index]="2" [formGroup]="formIndividu" [controlName]="'civilite'" [labelWidth]="labelWidthIndividu" [isError]="true" [errorMessage]="errorMessage"></app-boutons-radio-label>
+
+    <app-champ-de-saisie [label]="'Nom *'" [index]="3" [form]="formIndividu.get('nom')" [labelWidth]="labelWidthIndividu" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>
+    <app-champ-de-saisie [label]="'Prénom *'" [index]="4" [form]="formIndividu.get('prenom')" [labelWidth]="labelWidthIndividu" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="d-flex">
+  <div class="me-1">
+    Infobulle de données additionnelles avec un titre
+  </div>
+
+  <app-infobulle-additionnelles [placement]="'right auto'" [displayTitle]="true">
+      <!-- L'attribut "titre" permet d'afficher le contenu suivant dans le titre de la popover -->
+      <ng-container titre>
+        Lorem ipsum
+      </ng-container>
+      <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la popover -->	
+      <ng-container body>
+        Sed urna turpis, tincidunt fringilla congue ac, consequat eu neque. Vivamus facilisis augue ut nisi bibendum,
+        vitae vehicula ligula loborti
+      </ng-container>
+  </app-infobulle-additionnelles>
+</div>
+<br />
+<div class="d-flex">
+  <div class="me-1">
+    Infobulle de données additionnelles sans titre
+  </div>
+  <app-infobulle-additionnelles [placement]="'right auto'" [displayTitle]="false">
+      <!-- L'attribut "titre" permet d'afficher le contenu suivant dans le titre de la popover -->
+      <ng-container titre>
+        Lorem ipsum
+      </ng-container>
+      <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la popover -->	
+      <ng-container body>
+        Aliquam erat volutpat. Maecenas vehicula a odio in feugiat.
+        Duis pellentesque auctor nisi et pellentesque. Etiam bibendum molestie lobortis. Cras efficitur posuere maximus. In vitae justo orci.
+      </ng-container>
+  </app-infobulle-additionnelles>
+</div>

@@ -1,0 +1,21 @@
+<button class="btn btn-primary" (click)="open(popup)">Ouvrir popup avec tableau</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Popup avec tableau'"
+    [firstButton]="{label: 'Fermer', icone: 'icon-b_close'}"
+    [secondButton]="null"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <div class="popup-tableau">
+      <app-tableau
+        [gridOptions]="gridOptions"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [pagination]="false"
+      ></app-tableau>
+    </div>
+  </app-popup>
+</ng-template>

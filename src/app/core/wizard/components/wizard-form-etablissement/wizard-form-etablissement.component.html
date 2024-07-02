@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-5">
+    <app-champ-de-saisie [label]="'SIRET *'" [index]="0" [form]="formEtablissement.get('siret')" [labelWidth]="labelWidthEtablissement" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>
+    
+    <app-liste-deroulante
+      [label]="'Type d\'établissement *'"
+      [index]="1"
+      [form]="formEtablissement.get('typeEtablissement')"
+      [isError]="true"
+      [options]="options"
+      [labelWidth]="labelWidthEtablissement"
+      [errorMessage]="errorMessage"
+    ></app-liste-deroulante>
+
+    <div class="form row">
+      <label class="col-4 col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidthEtablissement + 'px'}">Date de création *</label>
+      <div class="col-6">
+        <app-date-picker [currentDate]="formEtablissement.get('dateDeCreation')" [customErrorMessage]="errorMessage" [isError]="formEtablissement.get('dateDeCreation').invalid && formEtablissement.get('dateDeCreation').touched"></app-date-picker>
+      </div>
+    </div>
+   
+    <app-champ-de-saisie [label]="'Dénomination *'" [index]="3" [form]="formEtablissement.get('denomination')" [labelWidth]="labelWidthEtablissement" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>  
+    <app-champ-de-saisie [label]="'Nom commercial'" [index]="4" [form]="formEtablissement.get('nomCommercial')" [labelWidth]="labelWidthEtablissement" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>  
+  </div>
+</div>

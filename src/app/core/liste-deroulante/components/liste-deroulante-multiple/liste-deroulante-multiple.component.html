@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-5">
+    <app-liste-deroulante-multiple 
+      *ngFor="let form of formArray.controls; let index = index"
+      [form]="form" 
+      [label]="'Label liste déroulante'"
+      [formIndex]="index"
+      [disabled]="index === 1"
+      [labelWidth]="148"
+    ></app-liste-deroulante-multiple>
+  </div>
+</div>

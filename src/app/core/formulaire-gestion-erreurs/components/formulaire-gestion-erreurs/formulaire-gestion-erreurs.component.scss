@@ -1,0 +1,20 @@
+/** CSS Spécifique à l'affiche de cette IHM d'exemple **/
+
+.border-top {
+  border-top: 0.071rem solid #E8E8E8 !important; // 1px
+  padding-top: 1rem; // 14px
+  margin-top: 1rem; // 14px
+}
+
+.border-left {
+  border-left: 0.071rem solid #E8E8E8 !important; // 1px
+}
+
+app-zone-information app-champ-de-saisie {
+  font-size: 0.929rem; // 13px
+  width: 16.5rem; // 231px
+}
+
+.nir {
+  line-height: inherit;
+}

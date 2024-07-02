@@ -1,0 +1,33 @@
+<h2>Démonstration REM</h2>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h3>Démonstration REM</h3>
+    <div class="bloc-exemple">
+      <div class="button-group">
+        <button type="button" class="btn btn-secondary" (click)="setFontSize(14)">
+          14px
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="setFontSize(15)">
+          15px
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="setFontSize(16)">
+          16px
+        </button>
+      </div>
+
+      <div class="mt-3">
+        Toute l'application, le thème ou les composants utilisent une cotation en REM.<br />
+        Cette cotation permet de définir toutes les dimensions en fonction de la taille de police de l'élément racine, la balise HTML.<br />
+        Dans notre cas, l'élément HTML à une taille de police de 14 pixels, ce qui veut dire que toutes les cotations en REM se basent sur cette valeur.<br />
+        Ce n'est pas pour autant la taille de la police de l'application, en effet, cette taille est réécrite au niveau de la balise body afin d'avoir une taille de police de 13 pixels.
+        <br /><br />
+        Les trois boutons au-dessus vous permettent de faire varier la valeur positionnée sur la balise HTML afin de constater le résultat de l'utilisation d'une cotisation en REM.
+      </div>
+
+      <div class="mt-4">
+        <app-desmonstration-rem></app-desmonstration-rem>
+      </div>
+    </div>
+  </div>
+</div>

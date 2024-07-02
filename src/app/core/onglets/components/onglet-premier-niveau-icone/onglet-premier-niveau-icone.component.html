@@ -1,0 +1,15 @@
+<app-onglet [type]="ongletTypeEnum.PREMIER_NIVEAU_ICONE" [(active)]="active">
+  
+  <!-- Header de l'onglet -->
+  <app-onglet-header-container *ngFor="let onglet of onglets; index as index">
+    <app-onglet-header class="d-flex" [tab]="onglet" [type]="ongletTypeEnum.PREMIER_NIVEAU_ICONE" [active]="active" [index]="index"></app-onglet-header>
+  </app-onglet-header-container>
+
+  <!-- Contenu de l'onglet -->
+  <div *ngIf="active === 0 || active === 1 || active === 2">
+    Duis consectetur vehicula turpis, sit amet viverra magna commodo in. Phasellus quis efficitur erat, non maximus lacus.
+    Etiam vitae dictum massa. Mauris sem libero, finibus ut consequat nec, elementum non purus. Praesent vehicula massa augue,
+    sit amet ornare sem egestas sed. Vivamus tempor elit sed orci interdum ullamcorper. Pellentesque habitant morbi tristique senectus
+    et netus et malesuada fames ac turpis egestas. Integer non rutrum sem. Curabitur est diam, cursus at lobortis quis,molestie at orci.
+  </div>
+</app-onglet>

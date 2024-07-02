@@ -1,0 +1,15 @@
+<form>
+  <div class="row">
+    <div class="col-5">
+      <app-champ-de-saisie-multiligne *ngFor="let item of form.controls | keyvalue; let index = index"
+        [label]="'Label champ de saisie'"
+        [index]="index"
+        [form]="item.value"
+        [isError]="item.key === 'texte3Erreur'"
+        [maxLength]="item.key === 'texte5Compteur' ? maxLength : null"
+        [labelWidth]="148"
+        [errorMessage]="item.key === 'texte3Erreur' ? 'Description de l\'erreur' : 'Description de l\'avertissement'"
+      ></app-champ-de-saisie-multiligne>
+    </div>
+  </div>
+</form>

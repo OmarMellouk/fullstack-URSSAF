@@ -1,0 +1,7 @@
+<div class="d-flex align-items-baseline">
+  <!-- RÉTROCOMPATIBILITÉ : Remplacer la classe me-2 par mr-label -->
+  <label class="mr-label">Label champ date</label>
+
+  <!-- RÉTROCOMPATIBILITÉ : Utiliser un reactive form pour currentDate -->
+  <app-date-picker [currentDate]="form.get('currentDate')" [disabled]="form.get('currentDate').disabled"></app-date-picker>
+</div>

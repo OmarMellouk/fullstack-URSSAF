@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-5">
+    <app-champ-de-saisie [label]="'SIREN *'" [index]="0" [form]="formEntreprise.get('siren')" [labelWidth]="labelWidthEntreprise" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>
+    <app-champ-de-saisie [label]="'Dénomination *'" [index]="1" [form]="formEntreprise.get('denomination')" [labelWidth]="labelWidthEntreprise" [isError]="true" [errorMessage]="errorMessage"></app-champ-de-saisie>  
+    
+    <app-liste-deroulante
+      [label]="'Forme juridique *'"
+      [index]="2"
+      [form]="formEntreprise.get('formeJuridique')"
+      [isError]="true"
+      [options]="options"
+      [labelWidth]="labelWidthEntreprise"
+      [errorMessage]="errorMessage"
+    ></app-liste-deroulante>
+
+    <div class="form row">
+      <label class="col-4 col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidthEntreprise + 'px'}">Date début activité *</label>
+      <div class="col-6">
+        <app-date-picker [currentDate]="formEntreprise.get('dateDebutActivite')" [customErrorMessage]="errorMessage" [isError]="formEntreprise.get('dateDebutActivite').invalid && formEntreprise.get('dateDebutActivite').touched"></app-date-picker>
+      </div>
+    </div>
+
+    <div class="form row">
+      <label class="col-4 col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidthEntreprise + 'px'}">Date fin activité</label>
+      <div class="col-6">
+        <app-date-picker [currentDate]="formEntreprise.get('dateFinActivite')" [customErrorMessage]="errorMessage" [isError]="formEntreprise.get('dateFinActivite').invalid && formEntreprise.get('dateFinActivite').touched"></app-date-picker>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="d-flex mb-3">
+  <h1>Pièces justificatives de débit de décembre 2015</h1>
+  <div class="ms-auto mb-2 position-relative">
+    <div>Dernière actualisation le <strong>11/04/2022</strong> à <strong>11:35</strong> <i aria-hidden="true" title="Actualiser" class="icon-b_refresh ms-2"></i></div>
+    <div class="h-0">
+      <app-right-menu></app-right-menu>
+    </div>
+  </div>
+
+</div>
+
+<div class="d-flex mb-4 pb-1">
+  <a [routerLink]="[]" class="mt-2"><< Période précédente</a>
+  <form [formGroup]="form" class="d-flex">
+    <select class="form-select ms-2 me-2 w-auto" [formControl]="form.get('mois')">
+      <option [ngValue]="'Décembre'">Décembre</option>
+    </select>
+
+    <select class="form-select me-2 w-auto" [formControl]="form.get('annee')">
+      <option [ngValue]="'2015'">2015</option>
+    </select>
+  </form>
+  <a [routerLink]="[]" class="mt-2">Période suivante >></a>
+</div>
+

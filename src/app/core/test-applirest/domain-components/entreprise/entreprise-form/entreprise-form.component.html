@@ -1,0 +1,101 @@
+<div class="card mb-3">
+  <app-zone-information>
+    <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+    <ng-container header>
+      <h4 *ngIf="!edition">Ajouter une entreprise</h4>
+      <h4 *ngIf="edition">Modifier une entreprise</h4>
+    </ng-container>
+
+    <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->	
+    <ng-container body>
+      <div class="alert alert-danger" *ngIf="errors.length > 0">
+        Des erreurs ont &eacute;t&eacute; d&eacute;tect&eacute;es sur le formulaire, veuillez les corriger pour
+        continuer :
+        <ul class="mt-2" *ngFor="let error of errors">
+          <li>Code : {{error.code}}. Description : {{error.description}}. Message : {{error.message}}</li>
+        </ul>
+      </div>
+      <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-4">
+            <app-champ-de-saisie
+              label="{{'formulaire.label.denomination' | translate}}"
+              [index]="0"
+              [form]="entrepriseForm.get('denomination')"
+              [isError]="true"
+              [labelWidth]="labelWidth"
+              [errorMessage]="entrepriseForm.controls['denomination'].errors?.required ? ('formulaire.message_erreur.champ_obligatoire' | translate) : ('formulaire.message_erreur.caracter_slash' | translate)"
+            ></app-champ-de-saisie>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <app-champ-de-saisie
+              label="{{'formulaire.label.siren' | translate}}"
+              [index]="1"
+              [form]="entrepriseForm.get('siren')"
+              [isError]="true"
+              [labelWidth]="labelWidth"
+              [errorMessage]="
+                entrepriseForm.controls['siren'].errors?.required ? ('formulaire.message_erreur.champ_obligatoire' | translate) : 
+                entrepriseForm.get('siren').errors?.minlength ? ('formulaire.message_erreur.neuf_chiffres' | translate) : ('formulaire.message_erreur.juste_chiffres' | translate)
+              "
+            ></app-champ-de-saisie>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <app-champ-de-saisie
+              label="{{'formulaire.label.activite' | translate}}"
+              [index]="2"
+              [form]="entrepriseForm.get('activite')"
+              [isError]="true"
+              [labelWidth]="labelWidth"
+              [errorMessage]="entrepriseForm.controls['activite'].errors?.required ? ('formulaire.message_erreur.champ_obligatoire' | translate) : ('formulaire.message_erreur.caracter_slash' | translate)"
+            ></app-champ-de-saisie>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <app-champ-de-saisie
+              label="{{'formulaire.label.naf' | translate}}"
+              [index]="3"
+              [form]="entrepriseForm.get('naf')"
+              [isError]="true"
+              [labelWidth]="labelWidth"
+              [errorMessage]="
+                entrepriseForm.get('naf').errors?.required ? ('formulaire.message_erreur.champ_obligatoire' | translate) : 
+                entrepriseForm.get('naf').errors?.minlength ? ('formulaire.message_erreur.min_3_chiffres' | translate) :
+                entrepriseForm.get('naf').errors?.maxlength ? ('formulaire.message_erreur.max_4_chiffres' | translate) :  ('formulaire.message_erreur.juste_chiffres' | translate)
+              "
+            ></app-champ-de-saisie>
+          </div>
+        </div>
+        <div class="row mb-4 pb-3">
+          <div class="col-4">
+            <div class="form row">
+              <label for="currentDate" class="col-4 col-form-label col-form-label-fix" [ngStyle]="{'width': labelWidth + 'px'}">{{'formulaire.label.date_fondation' | translate}}</label>
+              <div class="col-6 position-relative">
+                <app-date-picker *ngIf="entrepriseForm.get('currentDate')"
+                  [currentDate]="entrepriseForm.get('currentDate')" [spaceForControl]="true" 
+                  [disabled]="entrepriseForm.get('currentDate').value.disabled"
+                ></app-date-picker>
+
+                <div class="button-group mt-2">
+                  <button type="button" class="btn btn-outline-primary" (click)="goBack()">
+                    <i class="icon-b_cancel" aria-hidden="true"></i><span>{{'formulaire.bouton_annuler' | translate}}</span>
+                  </button>
+                  <button type="submit" class="btn btn-primary" [disabled]="!entrepriseForm.valid">
+                    <i class="icon-b_valid" aria-hidden="true"></i><span>{{'formulaire.bouton_valider' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </app-zone-information>
+</div>
+
+

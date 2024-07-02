@@ -1,0 +1,22 @@
+<div class="mt-2 mb-1">Erreurs possibles dans le formulaire :</div>
+<ul>
+  <li>Erreurs statiques (affichée à la saisie, affichent uniquement une icône d'erreur)
+    <ul>
+      <li>NIR : obligatoire et avec 13 caractères</li>
+      <li>Nom patronymique : obligatoire et uniquement des lettres</li>
+      <li>Prénoms patronymiques : uniquement des lettres</li>
+      <li>Nom d'usage : uniquement des lettres</li>
+      <li>Prénom d'usage : uniquement des lettres</li>
+      <li>Pseudonyme : uniquement des lettres</li>
+      <li>Date de naissance : obligatoire, date valide et avant aujourd'hui</li>
+      <li>Numéro de titre de séjour : uniquement des chiffres</li>
+    </ul>
+  </li>
+  <li>Erreurs de cohérence (affichée à la sauvegarde, affichent une note d'erreur en plus de l'icône)
+    <ul>
+      <li>Le NIR, le sexe et la civilité doivent correspondre</li>
+      <li>Le sexe et la civilité doivent correspondre</li>
+      <li>Le NIR et la date de naissance doivent correspondre</li>
+    </ul>
+  </li>
+</ul>

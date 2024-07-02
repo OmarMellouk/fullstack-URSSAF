@@ -1,0 +1,20 @@
+<button  class="btn btn-primary" (click)="open(popup)">Ouvrir popup longue</button>
+
+<ng-template #popup let-modal>
+  <!-- Composant popup générique -->
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Popup longue'"
+    [firstButton]="{label: 'Fermer', icone: 'icon-b_close'}"
+    [secondButton]="null"
+  >
+    <!-- Contenu customisable à 100% de la popup -->
+    <div>
+      Exemple de popup longue.
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      On notera que la barre de scroll est sur la page.
+    </div>
+  </app-popup>
+</ng-template>

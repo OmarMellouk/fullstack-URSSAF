@@ -1,0 +1,18 @@
+<button type="button" class="btn btn-secondary custom-position" (click)="addTab()">Ajouter un onglet</button>
+<div class="mt-4">
+  <app-onglet [(tabs)]="onglets" [type]="ongletTypeEnum.PREMIER_NIVEAU" [(active)]="active" [displayNav]="true" [(nextActive)]="nextActive" [(tabAdded)]="tabAdded">
+  
+    <!-- Header de l'onglet -->
+    <app-onglet-header-container *ngFor="let onglet of onglets; index as index">
+      <app-onglet-header class="d-flex" [tab]="onglet" [type]="ongletTypeEnum.PREMIER_NIVEAU" [active]="active" [index]="index" (closeTab)="closeTab($event)"></app-onglet-header>
+    </app-onglet-header-container>
+  
+    <!-- Contenu de l'onglet -->
+    <div>
+      In hac habitasse platea dictumst. Sed nec mollis ligula. Sed ornare, mauris et egestas sollicitudin, risus orci
+      vestibulum mi, vitae ultricies justo sem in diam. Phasellus et mollis dui. Curabitur non ex aliquet, lobortis
+      ligula sit amet, tincidunt nibh. Proin sed dui efficitur lorem scelerisque tempus elementum quis elit. Morbi sit amet
+      turpis convallis, congue est at, placerat est. Aenean nec gravida lorem. Sed ut lectus a diam elementum interdum eget luctus lectus.
+    </div>
+  </app-onglet>
+</div>

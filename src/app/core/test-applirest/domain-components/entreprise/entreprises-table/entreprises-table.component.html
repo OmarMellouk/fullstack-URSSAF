@@ -1,0 +1,6 @@
+<app-tableau
+  [gridOptions]="gridOptions"
+  [rowData]="rowData | async"
+  [columnDefs]="columnDefs"
+  (gridReady)="onGridReady()"
+></app-tableau>

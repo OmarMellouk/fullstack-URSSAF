@@ -1,0 +1,60 @@
+
+<!--
+  Ici le composant :
+  src\app\fullstack-components\onglets\components\onglet\onglet.component.ts
+  N'est pas utilisé afin de pouvoir activer [destroyOnHide] = false
+  L'activation de [destroyOnHide] = false avec l'utilisation de ng-content ne fonctionne pas 
+-->
+<div class="onglet-margin">
+  <div class="nav-tabs-primary">
+    <div class="d-flex w-100 nav-tabs-with-navigation">
+      <!-- Icône de navigation -->
+      <div class="navigation-icon-container">
+        <div class="navigation-icon" [ngClass]="{'disabled' : disableLeftNavigation}" (click)="scrollLeft()" tabindex="0" (keyup.enter)="scrollLeft()" title="Naviguer à gauche">
+          <i class="icon-b_left" aria-hidden="true"></i>
+        </div>
+      </div>
+      <!-- Liste des onglets -->
+      <ul #ulElement ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" (navChange)="navChange($event)" class="nav-tabs ul-with-navigation">
+        <li [ngbNavItem]="index" *ngFor="let onglet of onglets; index as index">
+          <!-- Header -->
+          <a ngbNavLink>
+            <app-onglet-header class="d-flex" [tab]="onglet" [type]="ongletTypeEnum.PREMIER_NIVEAU" [active]="active" [index]="index" (closeTab)="closeTab($event)"></app-onglet-header>
+          </a>
+          <!-- Contenu de l'onglet -->
+          <ng-template ngbNavContent>
+            <div *ngIf="index === 0">
+              <app-habilitation-pss [allToken]="getAllToken()"></app-habilitation-pss>
+            </div>
+        
+            <div *ngIf="index === 1">
+              <app-communication-spa [allComponentUUID]="getAllComponentUUID()"></app-communication-spa>
+            </div>
+        
+            <div *ngFor="let ongletContent of onglets | slice: staticTabs; let indexContent = index">
+              <div *ngIf="index === indexContent + staticTabs">
+                <app-open-app 
+                  (openApplication)="updateApplicationTabs($event)"  
+                  [allToken]="getAllToken()" 
+                  [allComponentUUID]="getAllComponentUUID()"
+                ></app-open-app>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <!-- Icône de navigation -->
+      <div class="navigation-icon-container">
+        <div class="navigation-icon" [ngClass]="{'disabled' : disableRightNavigation}" (click)="scrollRight()" tabindex="0" (keyup.enter)="scrollRight()" title="Naviguer à droite">
+          <i class="icon-b_right" aria-hidden="true"></i>
+        </div>
+
+        <div class="navigation-icon navigation-close" [ngClass]="{'disabled' : disableCloseButton}" (click)="closeAllTabs()" tabindex="0" (keyup.enter)="closeAllTabs()" title="Fermer tous les onglets">
+          <svg-icon [src]="'assets/icones-showcase/m_close.svg'" [svgStyle]="{ 'width.em': 1, 'height.em': 1, 'fill': '#384b6d'}"></svg-icon>
+        </div>
+      </div>
+    </div>
+    
+    <div [ngbNavOutlet]="nav"></div>
+  </div>
+</div>

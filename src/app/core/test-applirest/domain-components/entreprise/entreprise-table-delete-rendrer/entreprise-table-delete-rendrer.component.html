@@ -1,0 +1,15 @@
+<div class="d-flex justify-content-center" *ngIf="!params?.node.rowPinned" >
+  <i #actionRenderer tabindex="0" class="icon-b_delete no-focus" (keyup.enter)="demanderSuppression(confirmationModal)" (click)="demanderSuppression(confirmationModal)" aria-hidden="true" title="Supprimer"></i>
+</div>
+
+<ng-template #confirmationModal let-modal>
+  <app-popup 
+    [modalRef]="modalRef"
+    [title]="'Confirmation'"
+    [iconToDisplay]="'assets/icones-showcase/m_warning.svg'"
+    [firstButton]="{label: 'Confirmer suppression', icone: 'icon-b_valid'}"
+    [secondButton]="{label: 'Abandonner', icone: 'icon-b_cancel'}"
+  >
+    <div>Êtes vous sûr de vouloir supprimer cet élément ?</div>
+  </app-popup>
+</ng-template>

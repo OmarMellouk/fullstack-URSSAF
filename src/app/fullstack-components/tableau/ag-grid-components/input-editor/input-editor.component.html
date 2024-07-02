@@ -1,0 +1,22 @@
+<div #textElement *ngIf="!isEditing" class="overflow-ellipsis" [ngbPopover]="params.valueFormatted || params.value" container="body" [disablePopover]="!enableTooltip" triggers="mouseenter:mouseleave">
+  {{params.valueFormatted || params.value}}
+</div>
+
+<div class="d-flex" *ngIf="isEditing">
+  <input #input name="input" type="text" class="form-control w-100" [formControl]="form.get(params.formKey)"
+    autocomplete="off"
+    (keypress)="params.inputKeypress ? inputKeypress($event) : null"
+    (input)="params.inputInput ? inputInput($event, input) : null"
+    [ngClass]="{
+      'warning': !form.valid && !form.disabled && !form.get(params.formKey).errors.isError && form.dirty,
+      'error': !form.valid && !form.disabled && form.get(params.formKey).errors.isError && form.dirty
+    }">
+  <span [ngbPopover]="form.get(params.formKey).errors.message" triggers="mouseenter:mouseleave" container="body"
+    *ngIf="!form.valid && !form.disabled && !form.get(params.formKey).errors.isError && form.dirty" 
+    class="icon-warning d-flex align-items-center" aria-hidden="true"
+  ></span>
+  <span [ngbPopover]="form.get(params.formKey).errors.message" triggers="mouseenter:mouseleave" container="body"
+    *ngIf="!form.valid && !form.disabled && form.get(params.formKey).errors.isError && form.dirty"
+    class="icon-error d-flex align-items-center" aria-hidden="true"
+  ></span>
+</div>

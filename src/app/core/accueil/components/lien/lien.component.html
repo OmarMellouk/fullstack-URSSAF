@@ -1,0 +1,26 @@
+<h2>Liens</h2>
+<div *ngFor="let blocks of blocks">
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="bloc-exemple">
+        <app-zone-pliable-depliable>
+          <ng-container header>
+            <h3 class="my-auto">{{blocks.titre}}</h3>
+          </ng-container>
+          <ng-container body>
+            <ul>
+              <li *ngFor="let lien of blocks.liens">
+               <img src="{{lien.icone}}" alt="{{lien.nomlien}}">
+                <a class="ms-3" href="{{lien.lien}}">{{lien.nomlien}}</a>
+                <br/>
+                <p class="mt-2">{{lien.description}}</p>
+             </li>
+            </ul>
+          </ng-container>
+        </app-zone-pliable-depliable>
+      </div>
+    </div>
+  </div>
+
+</div>

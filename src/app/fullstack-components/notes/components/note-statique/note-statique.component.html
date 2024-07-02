@@ -1,0 +1,11 @@
+<ng-container *ngFor="let toast of notesService.staticToasts">
+  <ngb-toast *ngIf="toast.category === category" [class]="toast.classname" [autohide]="false" 
+    (hidden)="notesService.remove(toast)" class="static-toast">
+
+    <ng-template  [ngTemplateOutlet]="template"></ng-template>
+
+    <ng-template #template>
+      <app-note-template [toast]="toast" (close)="closeToast($event)"></app-note-template>
+    </ng-template>
+  </ngb-toast>
+</ng-container>

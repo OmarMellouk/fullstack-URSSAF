@@ -1,0 +1,11 @@
+
+<div *ngIf="!isConnecte()">
+  <button type="button" class="btn btn-secondary" (click)="login()" id="connexionBouton">
+    Connexion
+  </button>
+</div>
+
+<div class="d-flex align-items-center" *ngIf="isConnecte()">
+    <span id="loginField">Bienvenue : {{getUtilisateur()}}</span>
+    <button type="button" class="btn ms-2 btn-secondary" (click)="logout()" id="logoutBouton">D&eacute;connexion</button>
+</div>

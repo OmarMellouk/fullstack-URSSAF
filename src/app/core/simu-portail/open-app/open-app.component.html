@@ -1,0 +1,98 @@
+<div *ngIf="showOpener">
+  <div class="col">
+    &nbsp;Cette section vous permet de simuler l'ouverture de votre application dans un portail en définisant :  
+    <ul>
+      <li>L'URL de l'application à valider</li>
+      <li>La taille de rendu (hauteur/largeur en pixels) qu'aura l'application dans le portail pour valider son rendu</li>
+      <li>Le jeton front applicatif transmis (préalablement généré) afin de valider la bonne prise en charge des droits</li>
+      <li>Le mode de transmision du jeton (Web Message/URL Fragment) afin de valider intégration prisme</li>
+    </ul>
+  </div>
+
+  <app-zone-information>
+    <!-- L'attribut "header" permet d'afficher le contenu suivant dans l'header de la zone d'information -->
+    <ng-container header>
+      <h2>Paramétrage d'ouverture</h2>
+    </ng-container>
+    <!-- L'attribut "body" permet d'afficher le contenu suivant dans le body de la zone d'information -->	
+    <ng-container body>
+      <div class="row">
+        <div class="col-xl-9 col-lg-12">
+          <form (ngSubmit)="onSubmit()" [formGroup]="myGroup">
+            <div class="mb-3">
+              <div class="col">
+                <label class="form-label" for="urlInput">URL</label>
+                <input
+                  type="text"
+                  class="form-control mt-0 w-100"
+                  id="urlInput"
+                  placeholder="http://localhost:4200/"
+                  formControlName="urlInput"
+                />
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-6 pe-1">
+                <label class="form-label" for="largeurInput">Largeur IFrame</label>
+                <input
+                  type="number"
+                  class="form-control mt-0 w-100"
+                  id="largeurInput"
+                  placeholder="1680"
+                  formControlName="largeurInput"
+                />
+              </div>
+              <div class="col-6 ps-1">
+                <label class="form-label" for="hauteurInput">Hauteur IFrame</label>
+                <input
+                  type="number"
+                  class="form-control mt-0 w-100"
+                  id="hauteurInput"
+                  placeholder="1050"
+                  formControlName="hauteurInput"
+                />
+              </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-6 pe-1">
+                    <label class="form-label" for="selectHabilitation">Habilitation</label>
+                    <select class="form-select mt-0 w-100" id="selectHabilitation" formControlName="selectHabilitation">
+                        <option></option>
+                        <option *ngFor="let aToken of allToken; let i = index" [attr.data-index]="i" [ngValue]="aToken" value={{aToken.value}}>
+                          ({{i}}) {{aToken.requestScope}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-6 ps-1 d-flex">
+                    <button id="habilitationInfo" [disabled]="!myGroup.getRawValue().selectHabilitation" type="button" class="btn btn-secondary mt-auto w-100" (click)="habilitationInfoPopup()">Voir
+                        Infos</button>
+                </div>
+            </div>
+            <div class="mb-3">
+              <div class="col">
+                  <label class="form-label" for="selectHabilitationTransfer">Mode d'envoi de l'habilitation</label>
+                  <select class="form-select w-100 mt-0" id="selectHabilitationTransfer" formControlName="selectHabilitationTransfer">
+                      <option value="None">
+                          None
+                      </option>
+                      <option *ngIf="myGroup.getRawValue().selectHabilitation" value="{{staticClassReference.WEB_MESSAGE}}">
+                        Web Message
+                      </option>
+                      <option *ngIf="myGroup.getRawValue().selectHabilitation" value="{{staticClassReference.URL_FRAGMENT}}">
+                        URL Fragment
+                      </option>
+                  </select>
+              </div>
+          </div>
+          <div class="justify-content-start">
+            <div class="col-auto">
+              <button type="submit" class="btn btn-secondary">Ouvrir l'application</button>
+            </div>
+          </div>  
+          </form>
+        </div>
+      </div>
+    </ng-container>
+  </app-zone-information>
+</div>
+  

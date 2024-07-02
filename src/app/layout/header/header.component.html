@@ -1,0 +1,14 @@
+<div class="d-flex align-items-center justify-content-between h-100">
+  <div class="ps-3 col-sm-8">
+    <svg-icon class="icon-menu" src="assets/icones-showcase/menu.svg" [svgStyle]="{ 'width.em': 3, 'height.em': 3}" (click)="toggleSideBar()"></svg-icon>
+  </div>
+
+  <div class="ms-auto me-5">
+    <img src="assets/icons/flag/FR_flag.jfif" alt="Drapeau français, cliquez pour passer en français" (click)="changementlangue('fr')" class="cursor-pointer">
+    <img src="assets/icons/flag/UK_flag.png" alt="UK flag, click to switch in english" (click)="changementlangue('en')" class="cursor-pointer">
+  </div>
+
+  <div class="pe-3">
+    <app-authentification></app-authentification>
+  </div>
+</div>

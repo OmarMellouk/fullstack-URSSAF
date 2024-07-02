@@ -1,0 +1,11 @@
+<app-tableau
+  [gridOptions]="gridOptions"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [overlayNoRowsTemplate] = "overlayNoRowsTemplate"
+  [pagination]="false"
+  [displayColumnsConfiguration]="true"
+  [userColConfiguration]="localUserColConfiguration"
+  (gridReady)="onGridReady($event)"
+  (configurationUpdated)="onConfigurationUpdated($event)"
+></app-tableau>

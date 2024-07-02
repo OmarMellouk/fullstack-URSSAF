@@ -1,0 +1,34 @@
+<div class="d-flex align-items-baseline">
+  <!-- RÉTROCOMPATIBILITÉ : Ajouter le label suivant -->
+  <label class="mr-label">{{label}}</label>
+  <!-- RÉTROCOMPATIBILITÉ : Remplacer la classe mr-2 par mr-label -->
+  <label class="mr-label">du</label>
+    <!-- RÉTROCOMPATIBILITÉ : Supprimer la classe mr-3 -->
+    <!-- RÉTROCOMPATIBILITÉ : Utiliser un reactive form pour currentDate -->
+  <app-date-picker
+    [currentDate]="formFrom"
+    [disabled]="formFrom.disabled"
+    [maxDate]="fromMaxDate"
+    [minDate]="fromMinDate"
+    [readOnly]="fromReadOnly"
+    [isError]="fromIsError"
+    (dateSelect)="fromDateSelected()"
+    [isStartDateBiggerThanFromDate] = "isToDateIsBiggerThanFromDate"
+  >
+  </app-date-picker>
+
+  <!-- RÉTROCOMPATIBILITÉ : Remplacer la classe me-2 par mr-label -->
+  <label class="mr-label">au</label>
+  <!-- RÉTROCOMPATIBILITÉ : Utiliser un reactive form pour currentDate -->
+  <app-date-picker
+    [currentDate]="formTo"
+    [disabled]="formTo.disabled"
+    [maxDate]="toMaxDate"
+    [minDate]="toMinDate"
+    [readOnly]="toReadOnly"
+    [isError]="toIsError"
+    (dateSelect)="toDateSelected()"
+    [isStartDateBiggerThanFromDate] = "isToDateIsBiggerThanFromDate"
+  >
+  </app-date-picker>
+</div>
